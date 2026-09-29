@@ -1,0 +1,350 @@
+{
+  "branches": [
+    {
+      "key": "Pop",
+      "label": "Pop"
+    },
+    {
+      "key": "Hip-Hop & R&B",
+      "label": "Hip-Hop & R&B"
+    },
+    {
+      "key": "K-Pop",
+      "label": "K-Pop"
+    },
+    {
+      "key": "Latin",
+      "label": "Latin"
+    },
+    {
+      "key": "Rock & Alternative",
+      "label": "Rock & Alternative"
+    },
+    {
+      "key": "Electronic & Dance",
+      "label": "Electronic & Dance"
+    }
+  ],
+  "partisan": [
+    "Pop",
+    "Hip-Hop & R&B",
+    "K-Pop",
+    "Latin"
+  ],
+  "fallback": "Pop",
+  "rules": [],
+  "artists": {
+    "Taylor Swift": [
+      "Pop"
+    ],
+    "Madonna": [
+      "Pop"
+    ],
+    "Ed Sheeran": [
+      "Pop"
+    ],
+    "Justin Bieber": [
+      "Pop"
+    ],
+    "Post Malone": [
+      "Pop"
+    ],
+    "Ariana Grande": [
+      "Pop"
+    ],
+    "Jessie J": [
+      "Pop"
+    ],
+    "Lady Gaga": [
+      "Pop"
+    ],
+    "Bruno Mars": [
+      "Pop"
+    ],
+    "Katy Perry": [
+      "Pop"
+    ],
+    "One Direction": [
+      "Pop"
+    ],
+    "Billie Eilish": [
+      "Pop"
+    ],
+    "Dua Lipa": [
+      "Pop"
+    ],
+    "Olivia Rodrigo": [
+      "Pop"
+    ],
+    "Sabrina Carpenter": [
+      "Pop"
+    ],
+    "Chappell Roan": [
+      "Pop"
+    ],
+    "Miley Cyrus": [
+      "Pop"
+    ],
+    "Harry Styles": [
+      "Pop"
+    ],
+    "Lorde": [
+      "Pop"
+    ],
+    "Adele": [
+      "Pop"
+    ],
+    "Carly Rae Jepsen": [
+      "Pop"
+    ],
+    "Fifth Harmony": [
+      "Pop"
+    ],
+    "Little Mix": [
+      "Pop"
+    ],
+    "Kesha": [
+      "Pop"
+    ],
+    "Tate McRae": [
+      "Pop"
+    ],
+    "Gracie Abrams": [
+      "Pop"
+    ],
+    "Lana Del Rey": [
+      "Pop"
+    ],
+    "Gwen Stefani": [
+      "Pop"
+    ],
+    "Shania Twain": [
+      "Pop"
+    ],
+    "Avril Lavigne": [
+      "Pop"
+    ],
+    "Britney Spears": [
+      "Pop"
+    ],
+    "Christina Aguilera": [
+      "Pop"
+    ],
+    "P!nk": [
+      "Pop"
+    ],
+    "Charlie Puth": [
+      "Pop"
+    ],
+    "Bradley Cooper": [
+      "Pop"
+    ],
+    "Laufey": [
+      "Pop"
+    ],
+    "Lizzo": [
+      "Pop"
+    ],
+    "Kendrick Lamar": [
+      "Hip-Hop & R&B"
+    ],
+    "Drake": [
+      "Hip-Hop & R&B"
+    ],
+    "Future": [
+      "Hip-Hop & R&B"
+    ],
+    "Beyoncé": [
+      "Hip-Hop & R&B"
+    ],
+    "Rihanna": [
+      "Hip-Hop & R&B"
+    ],
+    "SZA": [
+      "Hip-Hop & R&B"
+    ],
+    "Doja Cat": [
+      "Hip-Hop & R&B"
+    ],
+    "Nicki Minaj": [
+      "Hip-Hop & R&B"
+    ],
+    "H.E.R.": [
+      "Hip-Hop & R&B"
+    ],
+    "Saweetie": [
+      "Hip-Hop & R&B"
+    ],
+    "21 Savage": [
+      "Hip-Hop & R&B"
+    ],
+    "Dr. Dre": [
+      "Hip-Hop & R&B"
+    ],
+    "Metro Boomin": [
+      "Hip-Hop & R&B"
+    ],
+    "Travis Scott": [
+      "Hip-Hop & R&B"
+    ],
+    "Offset": [
+      "Hip-Hop & R&B"
+    ],
+    "Playboi Carti": [
+      "Hip-Hop & R&B"
+    ],
+    "Run-DMC": [
+      "Hip-Hop & R&B"
+    ],
+    "OutKast": [
+      "Hip-Hop & R&B"
+    ],
+    "Migos": [
+      "Hip-Hop & R&B"
+    ],
+    "Megan Thee Stallion": [
+      "Hip-Hop & R&B"
+    ],
+    "Lil' Kim": [
+      "Hip-Hop & R&B"
+    ],
+    "Mýa": [
+      "Hip-Hop & R&B"
+    ],
+    "The Carters": [
+      "Hip-Hop & R&B"
+    ],
+    "Black Eyed Peas": [
+      "Hip-Hop & R&B"
+    ],
+    "Destiny's Child": [
+      "Hip-Hop & R&B"
+    ],
+    "Silk Sonic": [
+      "Hip-Hop & R&B"
+    ],
+    "The Weeknd": [
+      "Hip-Hop & R&B"
+    ],
+    "BLACKPINK": [
+      "K-Pop",
+      "BLACKPINK"
+    ],
+    "Jennie": [
+      "K-Pop",
+      "BLACKPINK"
+    ],
+    "Lisa": [
+      "K-Pop",
+      "BLACKPINK"
+    ],
+    "Rosé": [
+      "K-Pop",
+      "BLACKPINK"
+    ],
+    "Jisoo": [
+      "K-Pop",
+      "BLACKPINK"
+    ],
+    "BTS": [
+      "K-Pop",
+      "BTS"
+    ],
+    "Jimin": [
+      "K-Pop",
+      "BTS"
+    ],
+    "Jung Kook": [
+      "K-Pop",
+      "BTS"
+    ],
+    "V": [
+      "K-Pop",
+      "BTS"
+    ],
+    "Shakira": [
+      "Latin"
+    ],
+    "Karol G": [
+      "Latin"
+    ],
+    "Bad Bunny": [
+      "Latin"
+    ],
+    "J Balvin": [
+      "Latin"
+    ],
+    "Rosalía": [
+      "Latin"
+    ],
+    "Peso Pluma": [
+      "Latin"
+    ],
+    "Daddy Yankee": [
+      "Latin"
+    ],
+    "Luis Fonsi": [
+      "Latin"
+    ],
+    "Aventura": [
+      "Latin"
+    ],
+    "CNCO": [
+      "Latin"
+    ],
+    "Grupo Frontera": [
+      "Latin"
+    ],
+    "Coldplay": [
+      "Rock & Alternative"
+    ],
+    "Imagine Dragons": [
+      "Rock & Alternative"
+    ],
+    "twenty one pilots": [
+      "Rock & Alternative"
+    ],
+    "Gorillaz": [
+      "Rock & Alternative"
+    ],
+    "Linkin Park": [
+      "Rock & Alternative"
+    ],
+    "Foo Fighters": [
+      "Rock & Alternative"
+    ],
+    "Aerosmith": [
+      "Rock & Alternative"
+    ],
+    "Bon Iver": [
+      "Rock & Alternative"
+    ],
+    "Florence + the Machine": [
+      "Rock & Alternative"
+    ],
+    "Clairo": [
+      "Rock & Alternative"
+    ],
+    "Gotye": [
+      "Rock & Alternative"
+    ],
+    "Daft Punk": [
+      "Electronic & Dance"
+    ],
+    "Calvin Harris": [
+      "Electronic & Dance"
+    ],
+    "Avicii": [
+      "Electronic & Dance"
+    ],
+    "Marshmello": [
+      "Electronic & Dance"
+    ],
+    "The Chainsmokers": [
+      "Electronic & Dance"
+    ],
+    "Swedish House Mafia": [
+      "Electronic & Dance"
+    ]
+  }
+}

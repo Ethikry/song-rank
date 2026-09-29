@@ -1,0 +1,15 @@
+# No trailing slash: "node_modules/" matches only a real directory, so a
+# symlink named node_modules stays tracked — that is how one was committed by
+# accident in #8.
+node_modules
+dist/
+dist-demo/
+*.tsbuildinfo
+.DS_Store
+.dist-staging/
+.dist-old/
+.claude/worktrees/
+
+# Auth service secrets and runtime state
+.env
+server/data/

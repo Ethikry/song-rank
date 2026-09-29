@@ -1,0 +1,10 @@
+# Cloudflare Pages response headers for the demo build (copied to the root of
+# dist-demo/ by `npm run build:demo`). Vite fingerprints everything under
+# assets/, so those files can be cached forever; index.html is left to Pages'
+# default revalidation so a redeploy shows up immediately.
+/projects/song-rank/assets/*
+  Cache-Control: public, max-age=31536000, immutable
+
+/*
+  X-Content-Type-Options: nosniff
+  Referrer-Policy: strict-origin-when-cross-origin

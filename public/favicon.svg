@@ -1,0 +1,25 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+  <!-- A podium, not a letterform: at 16px a glyph turns to mush, but three
+       stepped bars keep their silhouette. Paper/ink palette from styles.css,
+       with the dark-mode variant swapped in by the media query below so the
+       tab icon doesn't glow white on a dark browser chrome. -->
+  <style>
+    .paper { fill: #f6f1e5 }
+    .ink   { fill: #1e1b14 }
+    .first { fill: #96731d }
+    .rest  { fill: #b23a1c }
+    @media (prefers-color-scheme: dark) {
+      .paper { fill: #232019 }
+      .ink   { fill: #e9e2cf }
+      .first { fill: #cfa64a }
+      .rest  { fill: #e2694a }
+    }
+  </style>
+  <rect class="paper" width="64" height="64" rx="12" />
+  <!-- podium: 2nd · 1st · 3rd -->
+  <rect class="rest" x="10" y="30" width="14" height="20" rx="2" />
+  <rect class="first" x="25" y="18" width="14" height="32" rx="2" />
+  <rect class="rest" x="40" y="37" width="14" height="13" rx="2" opacity="0.62" />
+  <!-- the rule the whole thing stands on -->
+  <rect class="ink" x="8" y="52" width="48" height="4" rx="2" />
+</svg>

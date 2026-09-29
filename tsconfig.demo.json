@@ -1,0 +1,8 @@
+{
+  // The demo's view of @data, for tsx-run scripts (the validator). Vite has
+  // its own alias in vite.config.ts; this is only for code run outside it.
+  "extends": "./tsconfig.json",
+  "compilerOptions": {
+    "paths": { "@data/*": ["./demo/data/*"] }
+  }
+}

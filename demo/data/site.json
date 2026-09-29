@@ -1,0 +1,25 @@
+{
+  "documentTitle": "The Song Rank",
+  "brand": [
+    "The Song",
+    "Rank"
+  ],
+  "subject": "Pop songs",
+  "rankingsOf": "song rankings",
+  "organizer": null,
+  "inauguralYear": 2024,
+  "compilations": {},
+  "storagePrefix": "song-rank",
+  "remorseAward": "The self-own",
+  "group": {
+    "singular": "genre",
+    "plural": "genres",
+    "qualified": "genre"
+  },
+  "demoPersona": "solenne",
+  "unscoredNominators": [
+    "bouncy",
+    "hushh",
+    "hexley"
+  ]
+}

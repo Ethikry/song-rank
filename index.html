@@ -1,0 +1,21 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <!-- viewport-fit=cover so env(safe-area-inset-*) resolves: the slideshow's
+         floating nav bar otherwise sits under the iOS home indicator. -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+    <!-- One SVG covers every browser tab and adapts to the reader's light/dark
+         chrome; the PNG is only for iOS home-screen bookmarks, which ignore SVG
+         icons. Both are drawn from the same geometry — see scripts/makeIcons.mjs. -->
+    <link rel="icon" href="/favicon.svg" type="image/svg+xml" />
+    <link rel="apple-touch-icon" href="/apple-touch-icon.png" />
+    <meta name="theme-color" content="#f6f1e5" media="(prefers-color-scheme: light)" />
+    <meta name="theme-color" content="#232019" media="(prefers-color-scheme: dark)" />
+    <title>%SITE_TITLE%</title>
+  </head>
+  <body>
+    <div id="root"></div>
+    <script type="module" src="/src/main.tsx"></script>
+  </body>
+</html>

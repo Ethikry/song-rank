@@ -1,0 +1,4111 @@
+/* ————————————————————————————————————————————————
+   Editorial print theme
+   paper & ink, ruled sections, serif display, tabular data
+   ———————————————————————————————————————————————— */
+
+:root {
+  color-scheme: light;
+  --paper: #f6f1e5;
+  --panel: #fdfaf1;
+  --ink: #1e1b14;
+  --ink-2: #55503f;
+  --muted: #8a8371;
+  --rule: #d9d2bd;
+  --rule-heavy: #1e1b14;
+  --vermillion: #b23a1c;
+  --navy: #23456e;
+  --gold: #96731d;
+  --green: #47702c;
+  /* year palette (kept in step with charts.tsx YEAR_COLORS) */
+  --year-0: #23456e;
+  --year-1: #47702c;
+  --year-2: #b23a1c;
+  --year-3: #96731d;
+  --year-4: #5b4a8a;
+  --year-5: #1e6a6a;
+  /* lightness for hashed category colours (charts.tsx categoryColor) */
+  --cat-l: 42%;
+  /* correlation heatmap */
+  --heat-base: #f1ebdc;
+  --corr-pos: #23456e;
+  --corr-neg: #b23a1c;
+  --serif: 'Iowan Old Style', 'Palatino Linotype', 'Book Antiqua', Palatino, Georgia, serif;
+  --sans: 'Segoe UI', system-ui, -apple-system, sans-serif;
+}
+
+/* ——— Night print (dark mode) ——— */
+
+:root[data-theme='dark'] {
+  color-scheme: dark;
+  --paper: #232019;
+  --panel: #2c2820;
+  --ink: #e9e2cf;
+  --ink-2: #b8b099;
+  --muted: #857e6c;
+  --rule: #454031;
+  --rule-heavy: #e9e2cf;
+  --vermillion: #e2694a;
+  --navy: #7ea2d4;
+  --gold: #cfa64a;
+  --green: #8db56b;
+  --year-0: #7ea2d4;
+  --year-1: #8db56b;
+  --year-2: #e2694a;
+  --year-3: #cfa64a;
+  --year-4: #a08fd0;
+  --year-5: #5fb0b0;
+  --cat-l: 68%;
+  --heat-base: #332e24;
+  --corr-pos: #3d6db0;
+  --corr-neg: #c74e2c;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  margin: 0;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  font-size: 16px;
+  line-height: 1.5;
+}
+
+a {
+  color: var(--navy);
+  text-decoration: none;
+  border-bottom: 1px solid color-mix(in oklab, var(--navy) 35%, transparent);
+  transition: color 0.12s ease, border-bottom-color 0.12s ease;
+}
+a:hover {
+  color: var(--vermillion);
+  border-bottom-color: var(--vermillion);
+}
+
+/* ——— Masthead ——— */
+
+.app-nav {
+  position: relative;
+  text-align: center;
+  padding: 26px 20px 0;
+  background: var(--paper);
+}
+.app-nav .brand {
+  font-size: clamp(26px, 4.5vw, 40px);
+  font-weight: 700;
+  letter-spacing: 0.01em;
+  line-height: 1.1;
+}
+.app-nav a.brand-link {
+  color: var(--ink);
+  border-bottom: none;
+}
+.app-nav a.brand-link:hover {
+  color: var(--vermillion);
+}
+.app-nav .brand span {
+  color: var(--vermillion);
+}
+.theme-toggle {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  background: var(--panel);
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-size: 15px;
+  line-height: 1;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+.theme-toggle:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+.app-nav .tagline {
+  font-style: italic;
+  color: var(--ink-2);
+  font-size: 13.5px;
+  margin: 4px 0 12px;
+}
+.app-nav .tabs {
+  display: flex;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 2px 18px;
+  border-top: 3px double var(--rule-heavy);
+  border-bottom: 1px solid var(--rule-heavy);
+  padding: 7px 8px;
+  max-width: 1100px;
+  margin: 0 auto;
+}
+.app-nav a.tab {
+  font-family: var(--sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--ink-2);
+  border-bottom: none;
+  padding: 2px 0;
+  box-shadow: inset 0 0 0 transparent;
+  transition: color 0.12s ease, box-shadow 0.15s ease;
+}
+.app-nav a.tab:hover {
+  color: var(--vermillion);
+}
+.app-nav a.tab.active {
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--vermillion);
+}
+/* "Years" click-controlled dropdown */
+.nav-wrap {
+  position: relative;
+}
+.nav-toggle {
+  display: none;
+}
+.year-menu {
+  position: relative;
+  display: inline-flex;
+  align-items: center;
+}
+.year-menu-btn {
+  background: none;
+  border: none;
+  margin: 0;
+  padding: 2px 0;
+  cursor: pointer;
+  font-family: var(--sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.14em;
+  color: var(--navy);
+  transition: color 0.12s ease;
+}
+.year-menu-btn:hover {
+  color: var(--vermillion);
+}
+.year-menu.active .year-menu-btn {
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--vermillion);
+}
+.year-drop {
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 50;
+  min-width: 92px;
+  max-width: 90vw;
+  background: var(--panel);
+  border: 1px solid var(--ink);
+  text-align: center;
+  /* NOT reveal-in: that keyframe animates `transform` outright and would drop the
+     translateX(-50%) centering for the duration, making the panel jump sideways. */
+  animation: year-drop-in 0.14s ease-out;
+}
+.year-drop a {
+  display: block;
+  padding: 6px 14px;
+  border-bottom: 1px solid var(--rule);
+  color: var(--navy);
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+}
+.year-drop a:last-child {
+  border-bottom: none;
+}
+.year-drop a:hover {
+  background: var(--paper);
+  color: var(--vermillion);
+}
+.year-drop a.active {
+  color: var(--ink);
+  box-shadow: inset 0 -2px 0 var(--vermillion);
+}
+
+.page {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 30px 22px 90px;
+  counter-reset: sec;
+}
+
+/* ——— Quick search ——— */
+
+.qsearch {
+  position: relative;
+  max-width: 320px;
+  margin: 10px auto 0;
+}
+.qsearch input {
+  width: 100%;
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid var(--rule);
+  padding: 6px 12px;
+  font-size: 13.5px;
+  font-family: var(--serif);
+  font-style: italic;
+}
+.qsearch input:focus {
+  border-color: var(--ink);
+  outline: none;
+}
+.qsearch-drop {
+  position: absolute;
+  top: 100%;
+  left: 0;
+  right: 0;
+  z-index: 40;
+  background: var(--panel);
+  border: 1px solid var(--ink);
+  border-top: none;
+  text-align: left;
+}
+.qsearch-drop button {
+  display: block;
+  width: 100%;
+  background: none;
+  border: none;
+  border-bottom: 1px solid var(--rule);
+  padding: 7px 12px;
+  font-family: var(--serif);
+  font-size: 14px;
+  color: var(--ink);
+  text-align: left;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+.qsearch-drop button:last-child {
+  border-bottom: none;
+}
+.qsearch-drop button:hover {
+  background: var(--paper);
+  color: var(--vermillion);
+}
+.qsearch-drop .g {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+  display: inline-block;
+  width: 52px;
+}
+
+/* ——— Headings & sections ——— */
+
+h1 {
+  font-size: 30px;
+  font-weight: 700;
+  margin: 4px 0 2px;
+  letter-spacing: 0.005em;
+}
+.subtitle {
+  font-style: italic;
+  color: var(--ink-2);
+  margin: 0 0 26px;
+  font-size: 15px;
+}
+
+h2 {
+  font-size: 21px;
+  font-weight: 700;
+  margin: 44px 0 4px;
+  padding-top: 10px;
+  border-top: 2px solid var(--rule-heavy);
+}
+h2::before {
+  counter-increment: sec;
+  content: 'Nº ' counter(sec) '.';
+  color: var(--vermillion);
+  font-style: italic;
+  font-weight: 400;
+  margin-right: 10px;
+  font-size: 17px;
+}
+h3 {
+  font-size: 15px;
+  margin: 18px 0 8px;
+  font-weight: 700;
+}
+
+/* ——— Figures (stat row) ——— */
+
+.tiles {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(min(150px, 100%), 1fr));
+  gap: 0 26px;
+  margin: 20px 0 6px;
+}
+/* Some tiles carry a song title rather than a figure, and a 150px column sets
+   those one word to a line. Widen the minimum on a phone so a tile gets the
+   whole measure. */
+@media (max-width: 760px) {
+  .tiles {
+    grid-template-columns: repeat(auto-fit, minmax(min(240px, 100%), 1fr));
+  }
+}
+.tile {
+  border-top: 1px solid var(--rule-heavy);
+  padding: 10px 0 12px;
+}
+.tile .value {
+  font-size: 32px;
+  font-weight: 700;
+  line-height: 1.15;
+  font-variant-numeric: lining-nums;
+}
+.tile .value a {
+  border-bottom: none;
+}
+.tile .label {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--ink-2);
+  margin-top: 4px;
+}
+.tile .detail {
+  font-style: italic;
+  color: var(--muted);
+  font-size: 12.5px;
+  margin-top: 3px;
+}
+
+/* ——— Panels ——— */
+
+.card {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  padding: 16px 18px;
+}
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(300px, 100%), 1fr));
+  gap: 16px;
+}
+
+/* Hand-offs to the pages that own the rest of a year's story. */
+.year-elsewhere {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: grid;
+  gap: 12px;
+}
+.year-elsewhere .note {
+  margin: 2px 0 0;
+}
+
+/*
+ * Vertical guide dropped through every curve at the hovered score, so the four
+ * distributions are read at one point rather than eyeballed across a gap.
+ */
+.chart .hover-guide {
+  stroke: var(--ink-2);
+  stroke-dasharray: 3 3;
+  opacity: 0.6;
+}
+
+/*
+ * A sentence of explanation inside a table header. Table headers are uppercase
+ * small-caps here, which is right for a one-word label and unreadable for a
+ * clause — so this opts back out of the header's casing and letterspacing.
+ */
+.th-blurb {
+  text-transform: none;
+  letter-spacing: normal;
+  font-weight: 400;
+  white-space: normal;
+  margin-top: 3px;
+}
+
+/* Rank movement badge (▲3 / ▼12) beside a song under an alternative tally. */
+.move {
+  margin-left: 6px;
+  font-size: 12px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+
+/* ——— Tables ——— */
+
+table.data {
+  width: 100%;
+  border-collapse: collapse;
+  font-variant-numeric: tabular-nums;
+  font-size: 14.5px;
+}
+table.data th {
+  font-family: var(--sans);
+  text-align: left;
+  color: var(--ink-2);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 6px 10px;
+  border-bottom: 2px solid var(--rule-heavy);
+  white-space: nowrap;
+}
+table.data th.sortable {
+  cursor: pointer;
+  user-select: none;
+  transition: color 0.12s ease;
+}
+table.data th.sortable:hover {
+  color: var(--vermillion);
+}
+table.data td {
+  padding: 7px 10px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: middle;
+  transition: background-color 0.12s ease;
+}
+table.data tbody tr:hover td {
+  background: color-mix(in oklab, var(--panel) 55%, var(--paper));
+}
+td.num,
+th.num {
+  text-align: right;
+}
+
+.scroll-x {
+  overflow-x: auto;
+}
+
+/*
+ * On a phone a data table has to fall back on its scroller anyway, and once it
+ * does there is nothing to gain by squeezing a column to its longest word —
+ * that sets song titles and credits as a stack of one-word lines. Let the cells
+ * keep their natural width and give the extra to the scroller. Desktop columns
+ * have room, so they go on wrapping.
+ */
+@media (max-width: 760px) {
+  .scroll-x table.data td,
+  .scroll-x table.data th {
+    white-space: nowrap;
+  }
+}
+
+/* ——— Score chips ——— */
+
+.chip {
+  display: inline-block;
+  min-width: 36px;
+  padding: 1px 6px;
+  text-align: center;
+  font-weight: 700;
+  font-size: 13px;
+  font-family: var(--sans);
+  font-variant-numeric: tabular-nums;
+  border: 1px solid;
+}
+
+.rank-medal {
+  font-weight: 700;
+  white-space: nowrap;
+}
+
+/* ——— Thumbnails ——— */
+
+img.thumb {
+  display: block;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+  object-fit: cover;
+  flex: none;
+}
+img.thumb.small {
+  width: 72px;
+  height: 40px;
+}
+img.thumb.large {
+  width: 152px;
+  height: 85px;
+}
+.song-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+/*
+ * The text half of a song cell has to be allowed to shrink.
+ *
+ * A flex item defaults to `min-width: auto`, which is its min-content width, so
+ * a title like "I'm Your Treasure Box * You have found captain Marine in a
+ * treasure chest" or a credit like "P!nk, Christina Aguilera X Lil' Kim &
+ * Mýa" held open every table it appeared in — four of them on a profile,
+ * which is what pushed that page sideways on a small phone. `anywhere` rather
+ * than `break-word` because only `anywhere` also lowers the min-content width
+ * that the table's column widths are computed from.
+ */
+.song-cell > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+
+/* ——— Year page header: title left, compilation player right ——— */
+
+.year-head {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+  justify-content: space-between;
+}
+.year-head-text {
+  min-width: 0;
+}
+.year-head-text h1 {
+  margin-top: 0;
+}
+.year-head-video {
+  flex: none;
+  /* kept modest: the header's height is max(title, player), and a taller player
+     just opens a void beside the two-line title */
+  width: min(300px, 100%);
+}
+.year-head-video .yt-player {
+  width: 100%;
+}
+
+/* ——— Embedded player ——— */
+
+iframe.yt-embed {
+  width: 100%;
+  height: 100%;
+  border: none;
+  background: #000;
+  display: block;
+}
+.yt-player {
+  position: relative;
+  width: min(480px, 100%);
+  aspect-ratio: 16 / 9;
+  border: 1px solid var(--rule);
+  background: #000;
+  flex: none;
+}
+/* thumbnail poster shown until the viewer clicks to load the real player */
+.yt-facade {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  padding: 0;
+  border: none;
+  cursor: pointer;
+  background-size: cover;
+  background-position: center;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.yt-facade::after {
+  content: '';
+  position: absolute;
+  inset: 0;
+  background: color-mix(in oklab, #000 18%, transparent);
+  transition: background-color 0.15s ease;
+}
+.yt-facade:hover::after {
+  background: color-mix(in oklab, #000 6%, transparent);
+}
+.yt-facade .play {
+  position: relative;
+  z-index: 1;
+  width: 66px;
+  height: 46px;
+  border-radius: 12px;
+  background: color-mix(in oklab, var(--vermillion) 88%, #000);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: transform 0.15s ease, background-color 0.15s ease;
+}
+.yt-facade:hover .play {
+  transform: scale(1.08);
+  background: var(--vermillion);
+}
+.yt-facade .play::before {
+  content: '';
+  border-style: solid;
+  border-width: 11px 0 11px 19px;
+  border-color: transparent transparent transparent #fff;
+  margin-left: 4px;
+}
+
+/* ——— Tags / pills ——— */
+
+.pill {
+  display: inline-block;
+  font-family: var(--sans);
+  padding: 0 7px;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+  color: var(--ink-2);
+  font-size: 11px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  margin-right: 4px;
+  white-space: nowrap;
+}
+
+/* ——— Controls ——— */
+
+.controls {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+  align-items: center;
+  margin: 16px 0;
+}
+.controls input[type='search'],
+.controls select {
+  background: var(--panel);
+  color: var(--ink);
+  border: 1px solid var(--ink);
+  padding: 6px 10px;
+  font-size: 14px;
+  font-family: var(--serif);
+}
+.controls input[type='search'] {
+  min-width: 230px;
+}
+/* How far the pills beside it reach: whether they move only the section you are
+   reading, or a second one further down. Set off by a rule so it doesn't read as
+   more of the standing "click years to add or remove them" note next to it. */
+.scope-reach {
+  padding-left: 10px;
+  border-left: 1px solid var(--rule);
+  font-style: italic;
+}
+.seg {
+  display: inline-flex;
+  border: 1px solid var(--ink);
+}
+.seg button {
+  background: var(--panel);
+  color: var(--ink-2);
+  border: none;
+  border-right: 1px solid var(--rule);
+  padding: 6px 12px;
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+.seg button:last-child {
+  border-right: none;
+}
+.seg button:hover {
+  color: var(--vermillion);
+}
+.seg button.on {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ——— Podium ——— */
+
+.podium {
+  display: flex;
+  gap: 10px;
+  align-items: stretch;
+}
+.podium .slot {
+  flex: 1;
+  border-top: 1px solid var(--rule);
+  padding: 8px 2px;
+}
+.podium .slot .song {
+  font-weight: 700;
+}
+.podium .slot .artist {
+  color: var(--ink-2);
+  font-size: 13.5px;
+  font-style: italic;
+}
+.podium .slot .avg {
+  font-family: var(--sans);
+  color: var(--muted);
+  font-size: 11.5px;
+  margin-top: 4px;
+}
+
+/* ——— Heatmap ——— */
+
+/* sized to the container — never horizontally scrolled */
+.heatmap {
+  border-collapse: collapse;
+  font-family: var(--sans);
+  font-size: clamp(8px, 1vw, 11px);
+  font-variant-numeric: tabular-nums;
+  width: 100%;
+  table-layout: fixed;
+}
+.heatmap th {
+  color: var(--ink-2);
+  font-weight: 600;
+  padding: 2px 3px;
+  font-size: clamp(8.5px, 1vw, 11.5px);
+}
+/* headers always show the full name — width fits the longest, never clipped.
+   table-layout:fixed sizes columns from the first row, so the corner cell
+   carries the name-column width */
+.heatmap th.corner {
+  width: 118px;
+}
+.heatmap th.rowh {
+  text-align: right;
+  padding-right: 6px;
+  white-space: nowrap;
+}
+.heatmap th.colh {
+  writing-mode: vertical-rl;
+  transform: rotate(180deg);
+  text-align: left;
+  padding: 4px 0;
+  white-space: nowrap;
+}
+.heatmap td {
+  height: 24px;
+  text-align: center;
+  color: var(--ink);
+  border: 1px solid var(--paper);
+  cursor: default;
+  overflow: hidden;
+  transition: outline-color 0.1s ease;
+  outline: 2px solid transparent;
+  outline-offset: -2px;
+}
+.heatmap td:hover {
+  outline-color: var(--ink);
+}
+@media (max-width: 720px) {
+  /* cells get too small for numerals — keep the color field, rely on hover */
+  .heatmap td {
+    font-size: 0;
+    height: 14px;
+  }
+  .heatmap th.corner {
+    width: 86px;
+  }
+  .heatmap th.rowh {
+    font-size: 8.5px;
+  }
+}
+
+/* ——— Award bars ——— */
+
+.bars {
+  display: grid;
+  gap: 5px;
+}
+.bars .row {
+  display: grid;
+  grid-template-columns: 150px 1fr minmax(120px, auto);
+  align-items: center;
+  gap: 12px;
+}
+.bars .row .track {
+  height: 12px;
+  background: repeating-linear-gradient(
+    90deg,
+    var(--rule) 0,
+    var(--rule) 1px,
+    transparent 1px,
+    transparent 8px
+  );
+}
+.bars .row .fill {
+  height: 100%;
+  background: var(--navy);
+}
+.bars .row .val {
+  font-family: var(--sans);
+  color: var(--ink-2);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  text-align: left;
+  white-space: nowrap;
+}
+.bars .row .name {
+  font-size: 14px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  text-align: right;
+}
+
+/* ——— Notes / footnotes ——— */
+
+.note {
+  color: var(--muted);
+  font-size: 13px;
+  font-style: italic;
+  margin-top: 8px;
+}
+
+/* ——— Roll of honor ——— */
+
+table.roll {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 14px;
+}
+table.roll th {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
+  border-bottom: 2px solid var(--rule-heavy);
+  padding: 6px 10px;
+  text-align: left;
+}
+table.roll td {
+  padding: 8px 10px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: top;
+}
+table.roll td.award-name {
+  font-weight: 700;
+  white-space: nowrap;
+}
+table.roll .winner {
+  font-weight: 700;
+}
+
+/* ——— Marginalia (fun facts) ——— */
+
+.marginalia {
+  columns: 2;
+  column-gap: 40px;
+  column-rule: 1px solid var(--rule);
+}
+@media (max-width: 760px) {
+  .marginalia {
+    columns: 1;
+  }
+}
+.marginalia .item {
+  break-inside: avoid;
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.marginalia .item .k {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.12em;
+  color: var(--vermillion);
+}
+.marginalia .item .v {
+  font-size: 15.5px;
+}
+.marginalia .item .d {
+  font-style: italic;
+  color: var(--muted);
+  font-size: 12.5px;
+}
+/* links in the aside keep its muted voice — they only announce themselves on hover */
+.marginalia .item .d a {
+  color: inherit;
+  text-decoration: underline;
+  text-decoration-color: var(--rule);
+}
+.marginalia .item .d a:hover {
+  color: var(--vermillion);
+  text-decoration-color: currentColor;
+}
+
+/* ——— Show-more ——— */
+
+button.showmore {
+  display: block;
+  margin: 10px auto 0;
+  background: none;
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  padding: 5px 16px;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+button.showmore:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+/* ——— Histogram ——— */
+
+.histogram text {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  fill: var(--ink-2);
+}
+.histogram rect {
+  fill: var(--navy);
+  transition: fill 0.15s ease;
+}
+.histogram rect:hover {
+  fill: var(--vermillion);
+}
+.histogram .axis {
+  stroke: var(--rule-heavy);
+  stroke-width: 1;
+}
+
+/* ——— SVG charts ——— */
+
+.chart text {
+  font-family: var(--sans);
+}
+.chart .tick {
+  font-size: 11px;
+  fill: var(--ink-2);
+}
+.chart .val {
+  font-size: 11px;
+  fill: var(--ink-2);
+  font-weight: 600;
+}
+.chart .axis-label {
+  font-size: 11.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  fill: var(--ink-2);
+}
+.chart .grid {
+  stroke: var(--rule);
+  stroke-width: 0.6;
+}
+.chart .axis {
+  stroke: var(--rule-heavy);
+  stroke-width: 1;
+}
+.chart .diag {
+  stroke: var(--muted);
+  stroke-width: 1;
+  stroke-dasharray: 4 4;
+}
+.chart circle.pt {
+  fill-opacity: 0.72;
+  stroke: var(--panel);
+  stroke-width: 0.8;
+  transition: fill-opacity 0.15s ease, r 0.15s ease;
+}
+.chart circle.pt:hover {
+  fill-opacity: 1;
+}
+.chart .pt.clickable,
+.chart .pt-group.clickable {
+  cursor: pointer;
+}
+.chart .pt-group.clickable:hover circle.pt,
+.chart circle.pt.clickable:hover {
+  r: 7px;
+  fill-opacity: 1;
+}
+/* data labels get a paper halo so they stay readable over dots and threads;
+   the label itself is a hover target and the hovered group rises to the front */
+.chart .pt-label {
+  font-size: 11px;
+  fill: var(--ink);
+  paint-order: stroke;
+  stroke: var(--paper);
+  stroke-width: 3px;
+  stroke-linejoin: round;
+  transition: font-size 0.1s ease;
+}
+.chart .pt-group.hovered .pt-label {
+  font-size: 14px;
+  font-weight: 700;
+  fill: var(--vermillion);
+  stroke-width: 4.5px;
+}
+/* The doubt halo and the dot cross-fade over the same slow beat, so hovering
+   reads as the point dissolving into its own uncertainty rather than as two
+   separate things blinking. Slower than the usual hover feedback on purpose. */
+.chart .pt-halo {
+  pointer-events: none;
+  transition: opacity 0.7s ease;
+}
+/* The lattice knits itself in on top of the glow: each strand and vertex fades
+   up on its own small delay (set inline), so the mesh assembles rather than
+   flicking on. Purely decorative, so it stays out of the way of pointers. */
+.chart .pt-wire {
+  pointer-events: none;
+}
+.chart .pt-wire line,
+.chart .pt-wire circle {
+  animation: wire-knit 0.55s ease both;
+}
+@keyframes wire-knit {
+  from {
+    opacity: 0;
+  }
+  to {
+    opacity: 1;
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .chart .pt-halo {
+    transition: none;
+  }
+  .chart .pt-wire line,
+  .chart .pt-wire circle {
+    animation: none;
+  }
+}
+.chart .pt-group.hovered circle.pt {
+  transition: fill-opacity 0.7s ease, r 0.15s ease;
+}
+
+.chart.web line {
+  transition: stroke-opacity 0.15s ease, stroke-width 0.15s ease;
+}
+.chart.web line:hover {
+  stroke-opacity: 0.85;
+}
+
+.web3-wrap {
+  position: relative;
+}
+.web3-wrap svg {
+  cursor: grab;
+}
+.web3-wrap svg:active {
+  cursor: grabbing;
+}
+/*
+ * Zoom controls, floated over the top-right of the web.
+ *
+ * Over the drawing rather than under it because the web is often the tallest
+ * thing on a phone screen: controls placed below it would sit off the fold
+ * exactly when the cloud is too crowded to read.
+ */
+.web-zoom {
+  position: absolute;
+  top: 6px;
+  right: 6px;
+  display: flex;
+  align-items: center;
+  gap: 4px;
+  z-index: 2;
+}
+.web-zoom button {
+  font-family: var(--sans);
+  font-size: 15px;
+  line-height: 1;
+  color: var(--ink-2);
+  background: color-mix(in oklab, var(--panel) 88%, transparent);
+  border: 1px solid var(--rule);
+  border-radius: 6px;
+  width: 30px;
+  height: 30px;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+.web-zoom button:hover {
+  background: var(--panel);
+  color: var(--ink);
+}
+.web-zoom .web-zoom-reset {
+  width: auto;
+  padding: 0 10px;
+  font-size: 12px;
+  letter-spacing: 0.04em;
+}
+/* The 44px touch floor, same reasoning as the deck's nav bar. */
+@media (pointer: coarse) {
+  .web-zoom button {
+    width: 40px;
+    height: 40px;
+    font-size: 18px;
+  }
+  .web-zoom .web-zoom-reset {
+    width: auto;
+    font-size: 13px;
+  }
+}
+
+.web-legend {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-family: var(--sans);
+  font-size: 12px;
+  color: var(--ink-2);
+  margin-top: 4px;
+  flex-wrap: wrap;
+}
+.web-toggle {
+  display: flex;
+  align-items: baseline;
+  gap: 10px;
+  margin-top: 8px;
+  max-width: 820px;
+}
+/* A switch rather than a pill: a bare pill reads as a filter chip, and it
+   wasn't obvious the sphere could be turned off at all. */
+.web-switch {
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  color: var(--ink-2);
+  font-family: var(--sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: color 0.12s ease;
+}
+.web-switch .track {
+  position: relative;
+  width: 30px;
+  height: 16px;
+  border-radius: 8px;
+  border: 1px solid var(--rule);
+  background: var(--panel);
+  transition: background-color 0.18s ease, border-color 0.18s ease;
+}
+.web-switch .knob {
+  position: absolute;
+  top: 2px;
+  left: 2px;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  background: var(--muted);
+  transition: transform 0.18s ease, background-color 0.18s ease;
+}
+.web-switch:hover {
+  color: var(--ink);
+}
+.web-switch:hover .track {
+  border-color: var(--ink);
+}
+.web-switch.on {
+  color: var(--vermillion);
+}
+.web-switch.on .track {
+  border-color: var(--vermillion);
+  background: color-mix(in oklab, var(--vermillion) 18%, var(--panel));
+}
+.web-switch.on .knob {
+  background: var(--vermillion);
+  transform: translateX(14px);
+}
+
+.web-legend .grad {
+  width: 130px;
+  height: 9px;
+  border: 1px solid var(--rule);
+}
+
+/* instant styled tooltip shared by dot strips and scatter charts */
+.strip-wrap {
+  position: relative;
+  padding-top: 4px;
+}
+.chart-wrap {
+  position: relative;
+}
+/* Charts are tapped to pin a readout (see useMarkHover). Without this the tap
+   is held ~300ms waiting to see if it's a double-tap zoom, which reads as lag. */
+.chart {
+  touch-action: manipulation;
+}
+.chart-tip {
+  position: absolute;
+  background: var(--panel);
+  border: 1px solid var(--ink);
+  padding: 4px 10px;
+  font-family: var(--serif);
+  font-size: 15px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.3;
+  pointer-events: none;
+  z-index: 30;
+  box-shadow: 2px 2px 0 color-mix(in oklab, var(--ink) 12%, transparent);
+}
+.strip-wrap .chart-tip {
+  bottom: calc(100% - 2px);
+  transform: translateX(-8%);
+  white-space: nowrap;
+}
+.chart-wrap .chart-tip {
+  transform: translate(-50%, calc(-100% - 12px));
+  max-width: 360px;
+  width: max-content;
+  text-align: center;
+}
+/*
+ * Multi-series readout: several rows under one heading, so it reads as a small
+ * table rather than a caption — left-aligned, and only the heading stays bold.
+ */
+.chart-tip:has(.swatch) {
+  text-align: left;
+  font-weight: 400;
+  font-variant-numeric: tabular-nums;
+}
+.chart-tip .swatch {
+  display: inline-block;
+  width: 9px;
+  height: 9px;
+  border-radius: 50%;
+  margin-right: 3px;
+}
+.chart .trend-line {
+  stroke: var(--navy);
+  stroke-width: 1.6;
+}
+
+/* CSS-only tooltip for small inline elements (chips etc.), chart-tip styled */
+[data-tip] {
+  position: relative;
+}
+[data-tip]:hover::after {
+  content: attr(data-tip);
+  position: absolute;
+  bottom: calc(100% + 6px);
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--panel);
+  border: 1px solid var(--ink);
+  padding: 4px 10px;
+  font-family: var(--serif);
+  font-size: 14px;
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1.3;
+  white-space: nowrap;
+  pointer-events: none;
+  z-index: 30;
+  box-shadow: 2px 2px 0 color-mix(in oklab, var(--ink) 12%, transparent);
+}
+.chart-legend {
+  font-family: var(--sans);
+  font-size: 12.5px;
+  color: var(--ink-2);
+  display: flex;
+  gap: 16px;
+  margin: 6px 0;
+}
+.chart-legend .swatch {
+  display: inline-block;
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  vertical-align: baseline;
+}
+/*
+ * The two drift charts read together, so they sit in one row and drop to a
+ * stack only when a column would be too narrow for an axis to breathe.
+ */
+.drift-pair {
+  display: grid;
+  /*
+   * `min(420px, 100%)` rather than a bare 420px: auto-fit honours the minimum
+   * even when there isn't room for it, so on a 390px phone the single column
+   * was still 420px wide and the front page scrolled sideways — the drift
+   * scatter hanging 44px off the right edge of every other section.
+   */
+  grid-template-columns: repeat(auto-fit, minmax(min(420px, 100%), 1fr));
+  gap: 8px 28px;
+  align-items: start;
+}
+.drift-pair > div > h3 {
+  margin-top: 0;
+}
+
+/* The legend doubling as a filter: click a year to bring it forward. */
+.chart-legend.picker {
+  gap: 6px;
+  flex-wrap: wrap;
+}
+.chart-legend.picker button {
+  font: inherit;
+  color: inherit;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 999px;
+  padding: 2px 9px;
+  cursor: pointer;
+  opacity: 0.4;
+}
+.chart-legend.picker button.on {
+  opacity: 1;
+  border-color: var(--rule);
+  background: var(--panel);
+}
+.chart-legend.picker button:hover {
+  border-color: var(--ink-2);
+}
+.chart-legend.picker .clear {
+  opacity: 1;
+  font-style: italic;
+  color: var(--muted);
+}
+
+.vs-head {
+  display: grid;
+  grid-template-columns: 1fr auto 1fr;
+  gap: 14px;
+  align-items: center;
+  margin: 18px 0 6px;
+}
+.vs-head .side {
+  font-size: 24px;
+  font-weight: 700;
+}
+.vs-head .side.right {
+  text-align: right;
+}
+.vs-head .mid {
+  font-style: italic;
+  color: var(--vermillion);
+  font-size: 18px;
+}
+table.h2h td.mid {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
+  text-align: center;
+}
+table.h2h td.a {
+  text-align: right;
+  font-weight: 700;
+}
+table.h2h td.b {
+  text-align: left;
+  font-weight: 700;
+}
+
+/* ——— What-If Lab podium cards ——— */
+
+.lab-change {
+  padding: 8px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.lab-change:last-child {
+  border-bottom: none;
+}
+.lab-change .head {
+  display: flex;
+  align-items: flex-start;
+  gap: 8px;
+  min-width: 0;
+}
+.lab-change .head .song-cell {
+  min-width: 0;
+}
+/*
+ * The two headline cards above the carried & buried table — the deck's framing
+ * on the page. Side by side because they are one fact each way; stacked once
+ * there isn't room for two readable columns.
+ */
+.lab-heroes {
+  display: grid;
+  /* min() so the track can go under its own minimum on a narrow phone rather
+     than widening the page — see .drift-pair. */
+  grid-template-columns: repeat(auto-fit, minmax(min(300px, 100%), 1fr));
+  gap: 14px;
+  margin-bottom: 16px;
+}
+.lab-hero-who {
+  margin-bottom: 6px;
+}
+.lab-hero-move {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: 20px;
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.lab-hero-move .tri {
+  font-size: 0.8em;
+}
+.lab-hero-move.up .tri,
+.lab-hero-move.up .mv {
+  color: var(--green);
+}
+.lab-hero-move.down .tri,
+.lab-hero-move.down .mv {
+  color: var(--vermillion);
+}
+
+.lab-change .meta {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-top: 5px;
+  padding-left: 28px;
+  font-variant-numeric: tabular-nums;
+  font-size: 14px;
+}
+
+/* ——— Head to Head: the ranker rails ——— */
+
+.picker {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: end;
+  gap: 10px 14px;
+  margin-bottom: 22px;
+}
+.picker-side {
+  min-width: 0;
+}
+.picker-label {
+  display: flex;
+  align-items: baseline;
+  gap: 8px;
+  margin-bottom: 5px;
+  font-size: 19px;
+}
+.picker-tag {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+}
+/* The divider is the swap control: the word was sitting between the two sides
+   doing nothing, and swapping them is the thing you most want from there. */
+.picker-swap {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+  padding: 6px 10px 10px;
+  background: none;
+  border: none;
+  cursor: pointer;
+  color: var(--vermillion);
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 17px;
+  border-radius: 8px;
+  transition: background-color 0.12s ease;
+}
+.picker-swap:hover {
+  background: var(--panel);
+}
+.picker-swap-icon {
+  font-style: normal;
+  font-size: 15px;
+  color: var(--muted);
+  transform: rotate(90deg);
+}
+.picker-swap:hover .picker-swap-icon {
+  color: var(--vermillion);
+}
+
+.rail-wrap {
+  display: flex;
+  align-items: stretch;
+  gap: 4px;
+  min-width: 0;
+}
+.rail-arrow {
+  flex: none;
+  width: 26px;
+  background: none;
+  border: 1px solid transparent;
+  border-radius: 7px;
+  color: var(--muted);
+  font-size: 20px;
+  line-height: 1;
+  cursor: pointer;
+  transition: color 0.12s ease, background-color 0.12s ease;
+}
+.rail-arrow:hover {
+  color: var(--ink);
+  background: var(--panel);
+}
+.rail {
+  display: flex;
+  gap: 6px;
+  overflow-x: auto;
+  scroll-behavior: smooth;
+  /*
+   * `proximity`, not `mandatory`: a mandatory snap fights a fast flick across
+   * forty faces, grabbing the list to a stop at the first one it passes. This
+   * lets the throw run and only tidies up the landing.
+   */
+  scroll-snap-type: x proximity;
+  /* A rail that runs out shouldn't hand the gesture to the page behind it. */
+  overscroll-behavior-x: contain;
+  padding: 4px 2px 8px;
+  min-width: 0;
+  /* Vertical pans still scroll the page; horizontal ones belong to the rail. */
+  touch-action: pan-y;
+  scrollbar-width: thin;
+  scrollbar-color: var(--rule) transparent;
+  /* Both ends fade out, so it reads as a strip that continues rather than a
+     row that happens to be cut off at the edge of the column. */
+  mask-image: linear-gradient(90deg, transparent, #000 14px, #000 calc(100% - 14px), transparent);
+}
+.rail::-webkit-scrollbar {
+  height: 7px;
+}
+.rail::-webkit-scrollbar-thumb {
+  background: var(--rule);
+  border-radius: 4px;
+}
+/*
+ * Every chip is a card, picked or not. They used to be transparent, which was
+ * legible enough while each one carried a face — but most of the room has no
+ * Discord avatar, and those chips were a bare name in muted ink floating on the
+ * page, with nothing to say where one choice ended and the next began. The
+ * resting card gives the rail its edges back; the pick then only has to out-
+ * contrast a card rather than carry the whole strip.
+ */
+.rail-chip {
+  flex: none;
+  scroll-snap-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 5px;
+  width: 74px;
+  padding: 7px 4px 6px;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 9px;
+  cursor: pointer;
+  color: var(--ink-2);
+  font-family: var(--serif);
+  transition: background-color 0.14s ease, border-color 0.14s ease, color 0.14s ease, transform 0.14s ease,
+    box-shadow 0.14s ease;
+}
+.rail-chip .avatar {
+  transition: filter 0.14s ease, opacity 0.14s ease;
+  /* Unpicked faces sit back so the current one reads at a glance across forty —
+     but only just: at 0.75 a monogram disc went nearly to nothing. */
+  opacity: 0.88;
+}
+.rail-chip:hover {
+  border-color: var(--ink-2);
+  color: var(--ink);
+}
+.rail-chip:hover .avatar {
+  opacity: 1;
+}
+.rail-chip.on {
+  background: color-mix(in oklab, var(--vermillion) 9%, var(--panel));
+  border-color: var(--vermillion);
+  /* Doubles the ring without moving the chip's box, so the strip stays level. */
+  box-shadow: 0 0 0 1px var(--vermillion);
+  color: var(--ink);
+  font-weight: 700;
+  transform: translateY(-2px);
+}
+.rail-chip.on .avatar {
+  opacity: 1;
+  border-color: var(--vermillion);
+}
+.rail-chip.on .avatar-monogram {
+  background: var(--panel);
+  color: var(--vermillion);
+}
+.rail-chip:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 1px;
+}
+.rail-name {
+  font-size: 12px;
+  line-height: 1.15;
+  /* Names run to sixteen letters; two lines, then ellipsis, so no chip is
+     taller than its neighbours and the rail stays a straight strip. */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  overflow-wrap: anywhere;
+}
+@media (prefers-reduced-motion: reduce) {
+  .rail {
+    scroll-behavior: auto;
+  }
+  .rail-chip.on {
+    transform: none;
+  }
+}
+
+/*
+ * Stacked below ~700px: three columns across a phone would leave each rail
+ * about 150px, which is two faces. The swap control becomes the rule between
+ * the two sides, which is where it reads anyway.
+ */
+@media (max-width: 700px) {
+  .picker {
+    grid-template-columns: minmax(0, 1fr);
+    gap: 4px;
+  }
+  .picker-swap {
+    flex-direction: row;
+    align-self: center;
+    gap: 8px;
+    padding: 4px 12px;
+  }
+  .picker-swap-icon {
+    transform: none;
+  }
+  /* Arrow buttons are a mouse affordance; a thumb has the whole rail. */
+  .rail-arrow {
+    display: none;
+  }
+}
+
+/* ——— Branch partisan cards ——— */
+
+.partisan-cols {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 0 16px;
+}
+.partisan-cols .col-h {
+  font-family: var(--sans);
+  font-size: 10.5px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  color: var(--ink-2);
+  border-bottom: 2px solid var(--rule-heavy);
+  padding-bottom: 4px;
+  margin-bottom: 4px;
+}
+.partisan-cols .p-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+  gap: 8px;
+  padding: 4px 0;
+  border-bottom: 1px solid var(--rule);
+  font-size: 14px;
+}
+.partisan-cols .p-row:last-child {
+  border-bottom: none;
+}
+.partisan-cols .p-row .delta {
+  font-family: var(--sans);
+  font-variant-numeric: tabular-nums;
+  font-weight: 700;
+  font-size: 13px;
+  white-space: nowrap;
+}
+
+/* ——— Misc layout ——— */
+
+.crown-strip {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+.crown-card {
+  border: 1px solid var(--rule);
+  background: var(--panel);
+  padding: 8px 14px;
+  min-width: 150px;
+}
+.crown-card .who {
+  font-weight: 700;
+}
+.crown-card .what {
+  font-family: var(--sans);
+  color: var(--muted);
+  font-size: 10.5px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+}
+
+.profile-head {
+  display: flex;
+  align-items: baseline;
+  gap: 14px;
+  flex-wrap: wrap;
+}
+
+/* The avatar is the one round thing in a deliberately square sheet, so keep it
+   small and let it sit on the text baseline rather than dominating the header. */
+.avatar {
+  border-radius: 50%;
+  border: 1px solid var(--rule);
+  object-fit: cover;
+  vertical-align: middle;
+  align-self: center;
+  background: var(--panel);
+}
+/* Stand-in for a participant with no Discord avatar: same disc, their initials
+   in it. Sized by the caller so it matches the image it replaces exactly. */
+.avatar-monogram {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  flex: none;
+  box-sizing: border-box;
+  background: var(--paper);
+  color: var(--ink-2);
+  font-family: var(--sans);
+  font-weight: 700;
+  letter-spacing: 0.02em;
+  user-select: none;
+}
+
+/*
+ * Artist portraits are official art crops rather than Discord avatars: they're
+ * busier, and a hairline ring keeps them from bleeding into the paper. Faces
+ * sit high in these crops, so anchor the square to the top of the image.
+ */
+.artist-avatar {
+  object-position: 50% 12%;
+  flex: none;
+}
+
+.artist-hero {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+.artist-hero .artist-avatar {
+  border-width: 2px;
+}
+
+.signin-wall {
+  max-width: 460px;
+  margin: 18vh auto 0;
+  text-align: center;
+}
+.signin-wall .showmore {
+  display: inline-block;
+  margin-top: 10px;
+  text-decoration: none;
+}
+
+.identity-chip {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 6px;
+  font-family: var(--sans);
+  font-size: 11px;
+  color: var(--muted);
+}
+.identity-chip a {
+  color: var(--ink-2);
+}
+/* The demo's "viewing as" picker: a native select, dressed in the chip's ink
+   rather than the browser's white box. */
+.persona-picker select {
+  font: inherit;
+  color: var(--ink-2);
+  background: transparent;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 1px 4px;
+}
+
+/* Sits in the header rail beside the theme toggle. Reuses .seg so "selected"
+   looks the same here as in every in-page filter. */
+.edition-toggle {
+  justify-self: center;
+  margin: 4px 0 0;
+}
+.edition-toggle button {
+  padding: 4px 10px;
+  font-size: 10px;
+}
+
+/* The signed-in viewer's own name, wherever it appears. No fill — just the gold
+   accent recolour and a solid gold underline (vs the faded navy under other
+   names), so they can spot themselves without a block of colour fighting the
+   theme. Gold is defined in both light and dark palettes. */
+a.name-me {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+a.name-me:hover {
+  color: var(--gold);
+  border-bottom-color: var(--gold);
+}
+
+/* Collapses to just the link when there's no avatar, so rows with and without
+   a picture still align. */
+.name-with-avatar {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  /*
+   * An inline-flex box takes its baseline from its first item — here the avatar
+   * image, whose baseline is its bottom edge — so alongside running text the
+   * whole name rides up by most of the image's height ("Without  Zesty…" on the
+   * Lab cards). Aligning to the middle of the text instead keeps the name on
+   * the line it belongs to. Harmless where the name sits alone in a cell, which
+   * is most of its uses.
+   */
+  vertical-align: middle;
+}
+/*
+ * Name as a token. For lists where names sit alone in a cell with nothing to
+ * anchor them — the 11s table, super-vote rosters — an edge tells the eye where
+ * each one starts and stops.
+ */
+.name-chip {
+  gap: 5px;
+  border: 1px solid var(--rule);
+  border-radius: 999px;
+  padding: 2px 10px 2px 3px;
+  background: var(--panel);
+  line-height: 1.35;
+}
+.name-chip:not(:has(.avatar)) {
+  padding-left: 10px;
+}
+.name-chip a {
+  text-decoration: none;
+}
+.name-chip:hover {
+  border-color: var(--ink-2);
+}
+/*
+ * The common ground under a taste pairing. Set small and quiet under the two
+ * names: it explains the number on the row rather than competing with it.
+ */
+.shared-artists {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 3px 5px;
+  margin-top: 3px;
+}
+.shared-artists a {
+  font-family: var(--sans);
+  font-size: 11px;
+  line-height: 1.5;
+  color: var(--ink-2);
+  text-decoration: none;
+  border: 1px solid var(--rule);
+  border-radius: 3px;
+  padding: 0 5px;
+  white-space: nowrap;
+}
+.shared-artists a:hover {
+  color: var(--ink);
+  border-color: var(--ink-2);
+}
+/*
+ * Which way the pair agreed. Both kinds are agreement and both build the
+ * correlation, so neither is styled as an error — the tint only says whether
+ * they were above or below their own averages together.
+ */
+.agree-up::before {
+  content: '▲';
+  font-size: 0.75em;
+  margin-right: 3px;
+  color: var(--green);
+}
+.agree-down::before {
+  content: '▼';
+  font-size: 0.75em;
+  margin-right: 3px;
+  color: var(--vermillion);
+}
+/* One up, one down — the mark for a split rather than an agreement. */
+.agree-split::before {
+  content: '⇅';
+  font-size: 0.85em;
+  margin-right: 3px;
+  color: var(--ink-2);
+}
+
+/* Artist pairings decomposed into the rankers behind them. */
+.artist-drivers {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(280px, 100%), 1fr));
+  gap: 12px;
+  margin-top: 10px;
+}
+.artist-drivers .card {
+  padding: 12px 14px;
+}
+.artist-drivers .ad-head {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 10px;
+  font-weight: 700;
+  margin-bottom: 6px;
+}
+.artist-drivers .ad-corr {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-variant-numeric: tabular-nums;
+  padding: 1px 7px;
+  border-radius: 3px;
+  flex: none;
+}
+.note .agree-up,
+.note .agree-down {
+  font-style: normal;
+}
+/* Four pairings across, each carrying the reason it's on screen. */
+.present-named-pairs {
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  gap: clamp(10px, 1.6vw, 26px);
+  align-items: start;
+}
+.present-named-pairs .np-cat {
+  font-family: var(--sans);
+  font-size: clamp(10px, 0.9vw, 13px);
+  font-weight: 700;
+  letter-spacing: 0.14em;
+  text-transform: uppercase;
+  color: var(--vermillion);
+  margin-bottom: 6px;
+}
+/*
+ * Always stacked, never side by side. Names range from three letters to
+ * sixteen, so a flex row wraps for some cards and not others and the
+ * four headers end up sitting at different heights. A fixed three-line shape is
+ * the same for every pairing whatever the names are.
+ */
+.present-named-pairs .present-pairline {
+  flex-direction: column;
+  align-items: center;
+  gap: 2px;
+}
+
+/*
+ * The drivers as a list with the weight on the right, not inline tags: with a
+ * percentage attached each entry is two facts, and a column lets the eye run
+ * down the numbers instead of hunting for them between names.
+ */
+.present-named-pairs .np-drivers {
+  margin-top: 10px;
+  text-align: left;
+  display: grid;
+  gap: 2px;
+}
+.present-named-pairs .np-driver {
+  display: flex;
+  align-items: baseline;
+  justify-content: space-between;
+  gap: 8px;
+  font-size: clamp(11px, 0.95vw, 14px);
+  line-height: 1.35;
+  border-bottom: 1px solid var(--rule);
+  padding-bottom: 1px;
+}
+.present-named-pairs .np-pct {
+  font-family: var(--sans);
+  font-variant-numeric: tabular-nums;
+  color: var(--muted);
+  flex: none;
+}
+@media (max-width: 1100px) {
+  .present-named-pairs {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+  }
+}
+
+/* Same tags at projector scale, centred under the closest-pair line. */
+.present-agree .shared-artists {
+  justify-content: center;
+  margin-top: 6px;
+}
+.present-agree .shared-artists a {
+  font-size: clamp(10px, 0.85vw, 13px);
+  padding: 1px 6px;
+}
+
+/* A run of chips needs its own gaps — commas were doing that job before. */
+.name-chips {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 4px;
+}
+
+.year-pills {
+  display: inline-flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 4px;
+}
+
+/* A pill that filters. Inherits .pill's look so selectable and non-selectable
+   years read as the same family, and borrows .seg button.on for the active
+   state so "selected" means the same thing everywhere on the site. */
+.pill-button {
+  cursor: pointer;
+  margin-right: 0;
+  line-height: 1.9;
+  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+.pill-button:hover {
+  color: var(--vermillion);
+  border-color: var(--vermillion);
+}
+.pill-button.on {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+.pill-button.on:hover {
+  color: var(--paper);
+}
+
+/* Years with nothing to show: present for context, but not clickable. */
+.inert-year {
+  opacity: 0.35;
+  margin-right: 0;
+}
+
+/* A button that reads as inline prose, for "back to all-time" inside a note. */
+.linklike {
+  background: none;
+  border: none;
+  padding: 0;
+  font: inherit;
+  color: var(--vermillion);
+  cursor: pointer;
+  text-decoration: underline;
+}
+
+.row-current > td {
+  background: color-mix(in oklab, var(--navy) 12%, transparent);
+  font-weight: 650;
+}
+
+.two-col {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 26px;
+}
+/* let columns shrink below their content so nested scroll-x tables can scroll
+   instead of forcing the whole page wider than the viewport */
+.two-col > * {
+  min-width: 0;
+}
+@media (max-width: 860px) {
+  .two-col {
+    grid-template-columns: 1fr;
+  }
+  /* title and player stop competing for width — player drops below the heading */
+  .year-head {
+    flex-direction: column;
+    gap: 4px;
+  }
+  .year-head-video {
+    width: min(480px, 100%);
+    margin-bottom: 12px;
+  }
+}
+
+.chapter-link {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+}
+
+/* ——— Recap carousel ——— */
+
+.recap-nav {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  margin: 14px 0 8px;
+}
+.recap-nav button {
+  background: var(--panel);
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-size: 16px;
+  padding: 4px 14px;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+.recap-nav button:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
+
+.recap-rail {
+  display: flex;
+  gap: 16px;
+  overflow-x: auto;
+  padding: 4px 2px 14px;
+  scrollbar-width: thin;
+  cursor: grab;
+  user-select: none;
+  /* let touch devices pan the rail horizontally without hijacking page scroll */
+  touch-action: pan-x;
+}
+.recap-rail:active {
+  cursor: grabbing;
+}
+.recap-rail img {
+  -webkit-user-drag: none;
+  user-select: none;
+}
+.recap-card {
+  flex: 0 0 min(380px, 82vw);
+  min-height: 380px;
+  display: flex;
+  flex-direction: column;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--vermillion);
+  padding: 18px 20px 16px;
+}
+.recap-card .kicker {
+  font-family: var(--sans);
+  font-size: 11px;
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.16em;
+  color: var(--vermillion);
+  margin-bottom: 12px;
+}
+.recap-card .img {
+  margin-bottom: 12px;
+}
+.recap-card .img img.thumb.large {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+.recap-card .statement {
+  font-size: 23px;
+  font-weight: 700;
+  line-height: 1.28;
+  flex: 1;
+}
+.recap-card .statement em {
+  font-style: italic;
+  color: var(--navy);
+}
+.recap-card .note {
+  font-size: 13px;
+  margin-top: 12px;
+}
+.recap-card .recap-list {
+  display: grid;
+  gap: 6px;
+}
+.recap-card .recap-list .minor {
+  font-size: 15.5px;
+  font-weight: 400;
+}
+.recap-card .recap-list .minor .note {
+  margin-top: 0;
+}
+
+/* ——— Motion (disabled under prefers-reduced-motion) ——— */
+
+img.thumb {
+  opacity: 0;
+  transition: opacity 0.25s ease;
+}
+img.thumb.loaded {
+  opacity: 1;
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  @keyframes route-in {
+    from {
+      opacity: 0;
+      transform: translateY(5px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .route-fade {
+    animation: route-in 0.22s ease-out;
+  }
+
+  @keyframes grow-bar {
+    from {
+      width: 0;
+    }
+  }
+  .bars .row .fill {
+    animation: grow-bar 0.45s ease-out;
+  }
+
+  @keyframes rise-bar {
+    from {
+      transform: scaleY(0);
+    }
+  }
+  .histogram rect {
+    transform-box: fill-box;
+    transform-origin: bottom;
+    animation: rise-bar 0.4s ease-out;
+  }
+
+  @keyframes widen-bar {
+    from {
+      transform: scaleX(0);
+    }
+  }
+  .histogram.vert rect {
+    transform-origin: left;
+    animation: widen-bar 0.4s ease-out;
+  }
+
+  @keyframes reveal-in {
+    from {
+      opacity: 0;
+      transform: translateY(-4px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  .reveal {
+    animation: reveal-in 0.18s ease-out;
+  }
+
+  /* Same reveal, but carries the horizontal centering through both stops so the
+     panel stays put under "Years" instead of snapping left when the animation ends. */
+  @keyframes year-drop-in {
+    from {
+      opacity: 0;
+      transform: translate(-50%, -4px);
+    }
+    to {
+      opacity: 1;
+      transform: translate(-50%, 0);
+    }
+  }
+  .qsearch-drop {
+    animation: reveal-in 0.14s ease-out;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  img.thumb {
+    opacity: 1;
+    transition: none;
+  }
+  * {
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* ——— Focus visibility ——— */
+
+a:focus-visible,
+button:focus-visible,
+input:focus-visible,
+select:focus-visible,
+[tabindex]:focus-visible {
+  outline: 2px solid var(--navy);
+  outline-offset: 2px;
+}
+
+/* ——— Scrollbars (scroll containers only) ——— */
+
+.scroll-x,
+.recap-rail {
+  scrollbar-color: var(--rule) transparent;
+}
+.scroll-x::-webkit-scrollbar,
+.recap-rail::-webkit-scrollbar {
+  height: 8px;
+}
+.scroll-x::-webkit-scrollbar-track,
+.recap-rail::-webkit-scrollbar-track {
+  background: transparent;
+}
+.scroll-x::-webkit-scrollbar-thumb,
+.recap-rail::-webkit-scrollbar-thumb {
+  background: var(--rule);
+  border-radius: 4px;
+}
+.scroll-x::-webkit-scrollbar-thumb:hover,
+.recap-rail::-webkit-scrollbar-thumb:hover {
+  background: var(--muted);
+}
+
+/* ——— Mobile (hamburger nav + tightened layout) ——— */
+
+@media (max-width: 640px) {
+  .app-nav {
+    padding: 20px 14px 0;
+  }
+  .app-nav .brand {
+    /* leave room for the theme toggle in the top-right corner */
+    padding: 0 30px;
+  }
+  .theme-toggle {
+    top: 14px;
+    right: 14px;
+  }
+
+  /* the tabs collapse behind a ☰ toggle */
+  .nav-toggle {
+    display: inline-block;
+    margin: 0 auto 10px;
+    background: var(--panel);
+    border: 1px solid var(--ink);
+    color: var(--ink);
+    font-family: var(--sans);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    padding: 8px 18px;
+    cursor: pointer;
+  }
+  .app-nav .tabs {
+    display: none;
+    border: none;
+    padding: 0;
+    margin: 0 auto 4px;
+  }
+  .app-nav .tabs.open {
+    display: flex;
+    flex-direction: column;
+    align-items: stretch;
+    gap: 0;
+    border-top: 1px solid var(--rule-heavy);
+    border-bottom: 1px solid var(--rule-heavy);
+    max-width: 320px;
+  }
+  .app-nav .tabs.open a.tab {
+    padding: 11px 0;
+    text-align: center;
+    border-bottom: 1px solid var(--rule);
+    box-shadow: none;
+  }
+  .app-nav .tabs.open a.tab.active {
+    box-shadow: inset 3px 0 0 var(--vermillion);
+  }
+  .year-menu {
+    width: 100%;
+    flex-direction: column;
+  }
+  .year-menu-btn {
+    width: 100%;
+    padding: 11px 0;
+  }
+  /* inline the year list into the vertical menu instead of an overlay */
+  .app-nav .tabs.open .year-drop {
+    position: static;
+    transform: none;
+    border: none;
+    min-width: 0;
+    max-width: none;
+    width: 100%;
+  }
+  .app-nav .tabs.open .year-drop a {
+    padding: 9px 0;
+    background: color-mix(in oklab, var(--panel) 60%, var(--paper));
+  }
+
+  .qsearch {
+    max-width: none;
+  }
+
+  /* headings & page gutters */
+  .page {
+    padding: 20px 14px 70px;
+  }
+  h1 {
+    font-size: 25px;
+  }
+  h2 {
+    font-size: 19px;
+    margin-top: 34px;
+  }
+
+  /* award bars: shrink the fixed columns so the bar stays visible */
+  .bars .row {
+    grid-template-columns: 92px 1fr minmax(84px, auto);
+    gap: 8px;
+  }
+  .bars .row .name {
+    font-size: 12.5px;
+  }
+  .bars .row .val {
+    font-size: 11px;
+  }
+
+  /* partisan cards stay two-column but tighter */
+  .partisan-cols {
+    gap: 0 10px;
+  }
+  .partisan-cols .p-row {
+    font-size: 12.5px;
+  }
+  .partisan-cols .p-row .delta {
+    font-size: 12px;
+  }
+
+  /* let filter inputs shrink instead of forcing a wrap */
+  .controls input[type='search'] {
+    min-width: 0;
+    flex: 1 1 160px;
+  }
+
+  /* segmented controls (award categories, year pickers) wrap instead of overflowing */
+  .seg {
+    flex-wrap: wrap;
+    max-width: 100%;
+  }
+  .seg button {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  /* the vs. header can get cramped — ease the type down */
+  .vs-head .side {
+    font-size: 19px;
+  }
+}
+
+/* ——— Year presentation (full-screen slide deck) ——— */
+
+/* Launch button on the Edition page */
+.present-launch {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  font-size: 12px;
+  color: var(--paper);
+  background: var(--vermillion);
+  border-bottom: none;
+  padding: 6px 14px;
+  border-radius: 3px;
+}
+.present-launch:hover {
+  color: var(--paper);
+  background: color-mix(in oklab, var(--vermillion) 85%, black);
+}
+
+/* Full-viewport overlay that replaces the site chrome */
+.present {
+  position: fixed;
+  inset: 0;
+  z-index: 200;
+  background: var(--paper);
+  color: var(--ink);
+  font-family: var(--serif);
+  display: flex;
+  flex-direction: column;
+}
+.present-slide {
+  flex: 1;
+  min-height: 0;
+  display: flex;
+  /* `safe` falls back to top-alignment when a slide is taller than the
+     viewport, so its heading never gets clipped above the fold. */
+  align-items: safe center;
+  justify-content: center;
+  padding: clamp(24px, 4vw, 60px) clamp(20px, 4vw, 60px)
+    calc(clamp(70px, 9vh, 96px) + env(safe-area-inset-bottom));
+  overflow-y: auto;
+  /*
+   * Vertical pans scroll a tall slide; horizontal ones are the deck's own swipe
+   * gesture, so the browser must not also read them as an edge back-swipe.
+   * pinch-zoom stays listed — dropping it would take zoom away from anyone who
+   * needs it to read a slide.
+   */
+  touch-action: pan-y pinch-zoom;
+  /* the deck is a fixed overlay; a scroll that runs out at the end of a slide
+     shouldn't chain through to the page behind it or trigger pull-to-refresh */
+  overscroll-behavior: contain;
+}
+@media (prefers-reduced-motion: no-preference) {
+  .present-slide {
+    animation: present-in 0.28s ease-out;
+  }
+  @keyframes present-in {
+    from {
+      opacity: 0;
+      transform: translateY(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+}
+.present-inner {
+  width: 100%;
+  max-width: 900px;
+  margin: 0 auto;
+  text-align: center;
+}
+.present-inner.wide {
+  max-width: 1120px;
+}
+.present-kicker {
+  font-family: var(--sans);
+  text-transform: uppercase;
+  letter-spacing: 0.18em;
+  font-size: clamp(12px, 1.3vw, 15px);
+  font-weight: 700;
+  color: var(--vermillion);
+  margin-bottom: 10px;
+}
+.present-title {
+  font-size: clamp(30px, 5vw, 58px);
+  font-weight: 700;
+  line-height: 1.05;
+  margin-bottom: clamp(16px, 3vh, 30px);
+}
+.present-content {
+  font-size: clamp(15px, 1.6vw, 20px);
+}
+.present-lead {
+  font-size: clamp(16px, 1.9vw, 23px);
+  font-style: italic;
+  color: var(--ink-2);
+  margin: 0 0 18px;
+}
+.present-content .note {
+  font-size: clamp(12.5px, 1.2vw, 15px);
+}
+.present-person {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+}
+.present-corr {
+  display: inline-block;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 1.1em;
+  padding: 2px 12px;
+  border-radius: 3px;
+}
+.present-h3 {
+  font-family: var(--sans);
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
+  font-size: 13px;
+  font-weight: 700;
+  color: var(--ink-2);
+  margin-bottom: 10px;
+}
+.present-song {
+  font-weight: 700;
+  font-size: clamp(16px, 1.7vw, 21px);
+  margin-top: 8px;
+}
+
+/* Podium */
+.present-podium {
+  display: flex;
+  justify-content: center;
+  align-items: flex-end;
+  gap: clamp(12px, 2vw, 28px);
+  flex-wrap: wrap;
+}
+.present-podium .podium-card {
+  width: clamp(190px, 24vw, 310px);
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-top: 3px solid var(--gold);
+  padding: 14px;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+.present-podium .podium-card.p1 {
+  order: 2;
+  transform: translateY(-16px);
+}
+.present-podium .podium-card.p2 {
+  order: 1;
+}
+.present-podium .podium-card.p3 {
+  order: 3;
+}
+.present-podium .podium-medal {
+  font-size: clamp(22px, 2.6vw, 36px);
+  font-weight: 700;
+}
+.present-podium .podium-title {
+  font-weight: 700;
+  font-size: clamp(15px, 1.5vw, 19px);
+}
+.present-podium .podium-avg {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(18px, 2vw, 26px);
+  color: var(--vermillion);
+}
+.present-podium .podium-nom {
+  font-style: italic;
+  margin-top: 2px;
+  line-height: 1.25;
+  /* Long co-nomination lists are common; wrapping beats overflowing the card. */
+  overflow-wrap: anywhere;
+}
+
+/* Top 10 list */
+.present-top10 {
+  list-style: none;
+  margin: 0 auto;
+  padding: 0;
+  max-width: 660px;
+  text-align: left;
+}
+.present-top10 li {
+  display: grid;
+  grid-template-columns: 1.8em 84px 1fr auto;
+  align-items: center;
+  gap: 14px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.present-top10 .rk {
+  font-family: var(--sans);
+  font-weight: 700;
+  color: var(--ink-2);
+  text-align: right;
+}
+.present-top10 .thumb {
+  width: 84px;
+  height: auto;
+}
+.present-top10 .ti {
+  font-weight: 600;
+}
+.present-top10 .av {
+  font-family: var(--sans);
+  font-weight: 700;
+  color: var(--vermillion);
+}
+
+/* Award winner + leaderboard */
+.present-winner {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 16px;
+  margin: 6px 0 22px;
+  flex-wrap: wrap;
+}
+.present-winner-name {
+  font-size: clamp(22px, 2.6vw, 34px);
+  font-weight: 700;
+}
+.present-winner-val {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(20px, 2.2vw, 28px);
+  color: var(--vermillion);
+}
+.present-bars {
+  max-width: 640px;
+  margin: 0 auto;
+  text-align: left;
+}
+
+/* Taste pairs */
+.present-pairs {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(12px, 2vw, 24px);
+}
+.present-pairs .pair {
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  padding: 16px 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 7px;
+  min-width: 180px;
+}
+.present-pairs .faces {
+  display: flex;
+}
+.present-pairs .faces .avatar + .avatar {
+  margin-left: -12px;
+}
+.present-pairs .pn {
+  font-weight: 600;
+}
+
+/* Elevens */
+.present-elevens {
+  display: flex;
+  flex-direction: column;
+  gap: 8px;
+  max-width: 700px;
+  margin: 0 auto;
+  text-align: left;
+}
+.present-elevens .ele {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+/* Two-up comparisons */
+.present-two {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: clamp(20px, 3vw, 44px);
+  align-items: start;
+}
+
+
+/* Generic presentation table (most-nominated) */
+.present-table {
+  margin: 0 auto;
+  border-collapse: collapse;
+  text-align: left;
+}
+.present-table td {
+  padding: 7px 12px;
+  border-bottom: 1px solid var(--rule);
+  vertical-align: middle;
+}
+.present-table td.big {
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: 1.3em;
+  color: var(--vermillion);
+}
+.present-table td.num {
+  text-align: right;
+  color: var(--ink-2);
+  font-variant-numeric: tabular-nums;
+}
+.present-table .thumb {
+  width: 76px;
+  height: auto;
+}
+
+/*
+ * The year-comparison table is four numeric columns, the last of which carries
+ * a count and its share ("38 5.2%") on one line. On the narrowest phones that
+ * is the four pixels the table can't give back, so the share drops under its
+ * count rather than the slide growing a sideways scroll.
+ */
+@media (max-width: 380px) {
+  .present-table.compare td .note {
+    display: block;
+  }
+}
+
+/*
+ * Four cells of 12px side padding plus a 76px still leave the title column
+ * narrower than a long track name's longest word, and a table cell cannot
+ * shrink below that — so the slide grew a sideways scroll. Tighten the gutters,
+ * shrink the still, and let the title break mid-word as a last resort.
+ */
+@media (max-width: 640px) {
+  .present-table td {
+    padding: 6px 7px;
+  }
+  .present-table .thumb {
+    width: 56px;
+  }
+  .present-table td:nth-child(3) {
+    overflow-wrap: anywhere;
+  }
+}
+
+/* The recap share card wrapper (also reused on the Recap page) */
+.recap-share {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+/* Bottom control bar */
+.present-nav {
+  position: absolute;
+  bottom: calc(16px + env(safe-area-inset-bottom));
+  left: 50%;
+  transform: translateX(-50%);
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  padding: 6px 12px;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  border-radius: 30px;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.12);
+  z-index: 10;
+}
+.present-nav button {
+  background: none;
+  border: none;
+  color: var(--ink);
+  font-size: 16px;
+  line-height: 1;
+  cursor: pointer;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  transition: background-color 0.12s ease;
+}
+.present-nav button:hover:not(:disabled) {
+  background: var(--paper);
+}
+.present-nav button:disabled {
+  opacity: 0.32;
+  cursor: default;
+}
+.present-count {
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink-2);
+  min-width: 62px;
+  text-align: center;
+  font-variant-numeric: tabular-nums;
+}
+
+/*
+ * Touch targets.
+ *
+ * 32px circles are comfortable under a cursor and too small under a thumb —
+ * below the 44px floor WCAG 2.5.5 and the platform HIGs both set. Only coarse
+ * pointers pay the extra size, so the projected deck's bar stays compact.
+ */
+@media (pointer: coarse) {
+  .present-nav {
+    gap: 2px;
+    padding: 4px 8px;
+  }
+  .present-nav button {
+    width: 44px;
+    height: 44px;
+    font-size: 18px;
+  }
+  .present-overview-grid button {
+    min-height: 44px;
+  }
+}
+
+/* Deck hints: one line for keys, one for fingers — see Present.tsx. */
+.hint-coarse {
+  display: none;
+}
+@media (pointer: coarse) {
+  .hint-fine {
+    display: none;
+  }
+  .hint-coarse {
+    display: block;
+  }
+}
+/* The same switch mid-sentence rather than as its own line (the taste web's
+   caption), where the block variants above would break the paragraph. */
+span.hint-fine {
+  display: inline;
+}
+span.hint-coarse {
+  display: none;
+}
+@media (pointer: coarse) {
+  span.hint-fine {
+    display: none;
+  }
+  span.hint-coarse {
+    display: inline;
+  }
+}
+
+/* Progress bar */
+.present-progress {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  height: 3px;
+  background: var(--rule);
+  z-index: 10;
+}
+.present-progress > div {
+  height: 100%;
+  background: var(--vermillion);
+  transition: width 0.2s ease;
+}
+
+/* Slide overview / jump menu */
+.present-overview {
+  position: absolute;
+  inset: 0;
+  z-index: 12;
+  background: color-mix(in oklab, var(--paper) 88%, transparent);
+  backdrop-filter: blur(3px);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: clamp(24px, 5vw, 60px);
+}
+.present-overview-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(min(180px, 100%), 1fr));
+  gap: 8px;
+  width: 100%;
+  max-width: 900px;
+  max-height: 80vh;
+  overflow-y: auto;
+}
+.present-overview-grid button {
+  text-align: left;
+  background: var(--panel);
+  border: 1px solid var(--rule);
+  padding: 10px 12px;
+  font-family: var(--sans);
+  font-size: 13px;
+  color: var(--ink);
+  cursor: pointer;
+  display: flex;
+  gap: 8px;
+  align-items: center;
+}
+.present-overview-grid button.on {
+  border-color: var(--vermillion);
+  box-shadow: inset 0 0 0 1px var(--vermillion);
+}
+.present-overview-grid .num {
+  color: var(--ink-2);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+
+@media (max-width: 760px) {
+  .present-two {
+    grid-template-columns: 1fr;
+  }
+  .present-podium .podium-card.p1 {
+    transform: none;
+  }
+}
+
+/*
+ * The podium stagger has to stop being a stagger before the row wraps.
+ *
+ * p2/p1/p3 are ordered 1/2/3 so they read silver-gold-bronze across, which is
+ * the podium everyone knows. Wrapped into a column that same order becomes a
+ * plain vertical list that puts the winner second — it doesn't read as a
+ * podium any more, it reads as the wrong result. Source order is by rank, so
+ * dropping the override is all that's needed.
+ *
+ * Pinned at 700px, comfortably above the ~650px where three 190px cards plus
+ * their gaps stop fitting one line, so the staggered-and-wrapped state the bug
+ * lived in is never reachable.
+ */
+@media (max-width: 700px) {
+  .present-podium {
+    flex-direction: column;
+    align-items: center;
+  }
+  .present-podium .podium-card,
+  .present-podium .podium-card.p1,
+  .present-podium .podium-card.p2,
+  .present-podium .podium-card.p3 {
+    order: 0;
+    width: min(300px, 100%);
+  }
+}
+
+/* ——— Ranker comments ——— */
+
+.notes-list {
+  display: flex;
+  flex-direction: column;
+}
+.voice {
+  display: flex;
+  align-items: baseline;
+  gap: 7px;
+  padding: 5px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.voice-body {
+  min-width: 0;
+}
+.voice-who {
+  font-size: 13px;
+}
+/* Set in the display serif, italic — these are quoted voices, not UI text. */
+.voice-quote {
+  margin: 1px 0 0;
+  font-family: var(--serif);
+  font-style: italic;
+  font-size: 14px;
+  line-height: 1.35;
+  color: var(--ink-2);
+  overflow-wrap: anywhere;
+}
+.voice-quote::before {
+  content: '\201C';
+}
+.voice-quote::after {
+  content: '\201D';
+}
+
+.present-quotes {
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+.present-quote .voice-quote {
+  font-size: 20px;
+  color: var(--ink);
+}
+
+/* ——— Slideshow: thumbnails & new panels ——— */
+
+/*
+ * .present-inner centres its text, but img.thumb is display:block, so inside a
+ * centred slide panel a thumbnail would sit flush left under centred text.
+ * Only the block-in-centred-column cases need this — thumbs inside flex rows
+ * (top 10, tables, the what-if list) are positioned by their row already.
+ */
+.present-two img.thumb,
+.present-eleven-songs img.thumb,
+.present-content > img.thumb {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.present-eleven-songs {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(16px, 2.5vw, 36px);
+  align-items: start;
+}
+.present-eleven-songs .ele-count {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 10px;
+  font-weight: 700;
+}
+.present-eleven-songs .ele-who {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: 6px 10px;
+  margin-top: 8px;
+}
+
+.present-weblayout {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 250px;
+  gap: clamp(12px, 2vw, 28px);
+  align-items: center;
+}
+.present-webstats {
+  display: flex;
+  flex-direction: column;
+  gap: 22px;
+  text-align: left;
+  border-left: 1px solid var(--rule);
+  padding-left: clamp(14px, 1.6vw, 24px);
+}
+.present-webstats .present-pairline {
+  justify-content: flex-start;
+}
+.present-pairline {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+.present-quote-by {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+@media (max-width: 760px) {
+  .present-eleven-songs {
+    grid-template-columns: 1fr;
+  }
+  .present-weblayout {
+    grid-template-columns: 1fr;
+  }
+  .present-webstats {
+    border-left: none;
+    padding-left: 0;
+  }
+}
+
+/*
+ * In the deck on a phone, the margin-of-error switch dragged a sixty-word
+ * rationale onto the slide and pushed the three taste facts below it off the
+ * fold. The switch and its label stay — the essay is reading for the Taste and
+ * Artists pages, where it keeps its full text at every width.
+ */
+@media (max-width: 640px) {
+  .present-content .web-toggle {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 4px;
+  }
+  .present-content .web-toggle > .note {
+    display: none;
+  }
+}
+
+/* Ranker notes shown alongside a highlighted score */
+.song-notes {
+  margin-top: 3px;
+}
+.song-notes .voice-quote {
+  font-size: 13px;
+  margin: 2px 0 0;
+}
+.song-notes .note-by {
+  font-family: var(--sans);
+  font-style: normal;
+  font-size: 10.5px;
+  font-weight: 700;
+  letter-spacing: 0.06em;
+  text-transform: uppercase;
+  color: var(--muted);
+  margin-right: 5px;
+}
+
+/* Notes on a slide read from across a room, so they get the deck's scale
+   rather than the dense table size used on the pages. */
+.present-content .song-notes .voice-quote {
+  font-size: clamp(14px, 1.15vw, 17px);
+  color: var(--ink);
+}
+.present-whatif .song-notes {
+  margin-top: 1px;
+}
+.present-whatif .song-notes .voice-quote {
+  font-size: clamp(13px, 1vw, 15px);
+}
+
+/* ——— Slideshow: bigger art, new panels ——— */
+
+/*
+ * A projected slide is read from across a room, so thumbnails run at double the
+ * page size. The Top 10 is the exception — ten rows of double-height art would
+ * not fit the slide.
+ */
+.present-content img.thumb.large {
+  width: 304px;
+  height: 171px;
+  /* 304px is wider than the content box on a 320–360px phone, which pushed the
+     whole slide sideways. Let it shrink and keep the 16:9 rather than crop. */
+  max-width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+.present-content img.thumb.small {
+  width: 144px;
+  height: 80px;
+}
+.present-top10 img.thumb.small {
+  width: 72px;
+  height: 40px;
+}
+.present-podium img.thumb,
+.present-cumulative img.thumb {
+  margin-left: auto;
+  margin-right: auto;
+}
+
+.present-top10 .nom {
+  display: block;
+  font-size: 0.82em;
+}
+
+/* Awards, all on one slide */
+/* Three across then two, centred — five equal columns left every board too
+   narrow to read the names in. */
+.present-awards {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  gap: clamp(10px, 1.6vw, 26px);
+}
+.present-award {
+  flex: 0 1 clamp(240px, 30%, 340px);
+  min-width: 0;
+  text-align: left;
+}
+.present-award-name {
+  font-weight: 700;
+  font-size: clamp(13px, 1.2vw, 17px);
+  line-height: 1.2;
+  margin-bottom: 4px;
+}
+.present-award-val {
+  font-variant-numeric: tabular-nums;
+  color: var(--vermillion);
+}
+.present-awards .present-bars .row {
+  font-size: 12px;
+}
+/*
+ * One or two boards to a slide instead of five, so each gets room to grow —
+ * without this they keep the width they had when three shared a row and sit as
+ * two narrow columns marooned in the middle of a projector.
+ */
+.present-awards.few .present-award {
+  flex: 0 1 clamp(300px, 42%, 460px);
+}
+.present-awards.few .present-bars .row {
+  font-size: clamp(13px, 1.15vw, 16px);
+}
+.present-remorse {
+  margin: 6px 0 0;
+  font-size: clamp(13px, 1.2vw, 17px);
+  line-height: 1.4;
+}
+
+/* Taste pairs as a list */
+.present-pairlist {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+/* The lead name is centred against every row it covers, not pinned to the first. */
+.pl-group {
+  display: grid;
+  grid-template-columns: 1fr minmax(0, 1.4fr);
+  align-items: center;
+  gap: 10px;
+  border-bottom: 1px solid var(--rule);
+  padding: 3px 0;
+}
+.pl-rows {
+  display: flex;
+  flex-direction: column;
+}
+.pl-row {
+  display: grid;
+  grid-template-columns: auto 1fr auto;
+  align-items: baseline;
+  gap: 10px;
+  font-size: clamp(15px, 1.5vw, 21px);
+  padding: 2px 0;
+}
+.pl-lead {
+  text-align: right;
+  font-weight: 700;
+  font-size: clamp(15px, 1.5vw, 21px);
+}
+.pl-x {
+  color: var(--muted);
+}
+.pl-other {
+  text-align: left;
+}
+.pl-val {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  min-width: 2.4em;
+  text-align: right;
+}
+
+/* Histogram with a stats column */
+.present-histo {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 230px;
+  gap: clamp(16px, 2.5vw, 40px);
+  align-items: center;
+  text-align: left;
+}
+.present-sidestats {
+  display: flex;
+  flex-direction: column;
+  gap: 18px;
+  border-left: 1px solid var(--rule);
+  padding-left: clamp(14px, 1.6vw, 24px);
+}
+.present-sidestats .ss-val {
+  font-size: clamp(24px, 2.6vw, 38px);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+/* Year comparison */
+.present-table.compare th {
+  font-family: var(--sans);
+  font-size: 11px;
+  text-transform: uppercase;
+  letter-spacing: 0.08em;
+  color: var(--muted);
+}
+.present-table.compare tr.on {
+  background: color-mix(in oklab, var(--vermillion) 10%, transparent);
+  font-weight: 700;
+}
+.present-cumulative {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+.present-cumulative .pc-row {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr);
+  gap: clamp(10px, 1.6vw, 24px);
+  margin-top: 8px;
+}
+.present-cumulative .pc {
+  display: flex;
+  /* Top-aligned, not centred: a title that wraps to two lines would otherwise
+     shift its whole card against the two beside it. */
+  align-items: flex-start;
+  gap: 10px;
+  text-align: left;
+}
+/* Same reasoning as .song-cell: the text half of the card is a flex item, so
+   it defaults to its min-content width and a long track title holds the whole
+   three-across row open. */
+.present-cumulative .pc > div {
+  min-width: 0;
+  overflow-wrap: anywhere;
+}
+.present-cumulative .pc-title {
+  font-weight: 700;
+  line-height: 1.15;
+}
+/* Three cards across a phone is about 95px each — narrower than plenty of
+   single words in a track title. One per row instead. */
+@media (max-width: 640px) {
+  .present-cumulative .pc-row {
+    grid-template-columns: 1fr;
+    gap: 12px;
+  }
+}
+
+/* A rank move, shown loudly */
+.present-move {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 8px;
+  margin-top: 8px;
+  font-size: clamp(18px, 1.9vw, 27px);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.present-move .tri {
+  font-size: 0.8em;
+}
+.present-move.up .tri,
+.present-move.up .mv {
+  color: var(--green);
+}
+.present-move.down .tri,
+.present-move.down .mv {
+  color: var(--vermillion);
+}
+
+/*
+ * Most influential voter: crowns on the left, the field's average on the right.
+ * The comparison column is what makes the big number mean anything, so it keeps
+ * its own bordered gutter (shared with the taste web's stats column) rather
+ * than sitting under the crowns where it would read as a footnote.
+ */
+.present-influence {
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) 210px;
+  gap: clamp(16px, 2.5vw, 40px);
+  align-items: start;
+  text-align: left;
+}
+.present-influence .inf-crowns {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(14px, 2vw, 32px);
+}
+/* One crown takes the full width; two share it. */
+.present-influence .inf-crown {
+  flex: 1 1 clamp(260px, 44%, 520px);
+  min-width: 0;
+  text-align: center;
+}
+.present-influence .inf-figures {
+  display: flex;
+  justify-content: center;
+  gap: clamp(12px, 2vw, 28px);
+  margin: 10px 0 4px;
+}
+.present-influence .inf-big {
+  font-size: clamp(26px, 3.2vw, 46px);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.05;
+}
+.present-influence .inf-top {
+  display: flex;
+  align-items: flex-start;
+  gap: clamp(10px, 1.4vw, 18px);
+  text-align: left;
+  margin-top: 10px;
+  padding-top: 10px;
+  border-top: 1px solid var(--rule);
+}
+.present-influence .inf-top img.thumb.large {
+  width: clamp(120px, 13vw, 180px);
+  height: auto;
+  aspect-ratio: 16 / 9;
+  /* Overrides the slide-wide auto margins that centre large art. */
+  margin: 0;
+  flex: none;
+}
+.present-influence .inf-top .present-move {
+  justify-content: flex-start;
+  font-size: clamp(15px, 1.5vw, 22px);
+}
+.present-influence .inf-average .ss-val {
+  font-size: clamp(22px, 2.2vw, 32px);
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  line-height: 1.1;
+}
+
+@media (max-width: 760px) {
+  .present-influence {
+    grid-template-columns: 1fr;
+  }
+  /* The average column's numbers read as a row once it's no longer a gutter. */
+  .present-influence .inf-average {
+    flex-direction: row;
+    flex-wrap: wrap;
+    align-items: baseline;
+    gap: 16px;
+  }
+  .present-influence .inf-top {
+    flex-direction: column;
+  }
+}
+
+/*
+ * The slide carries two crowns, each with three figures and a "biggest mover"
+ * card. Stacked at phone width that ran to roughly two and a half screens, and
+ * the second crown's numbers began below the fold — on the one slide whose
+ * whole point is comparing the two.
+ *
+ * Everything here buys height back: the mover art returns to a row beside its
+ * text instead of a full-width still (worth ~180px each), the big figures come
+ * down to a size that still reads as the headline, and the gaps tighten.
+ */
+@media (max-width: 640px) {
+  .present-influence {
+    gap: 14px;
+  }
+  .present-influence .inf-crowns {
+    gap: 18px;
+  }
+  .present-influence .inf-big {
+    font-size: clamp(22px, 7vw, 32px);
+  }
+  .present-influence .inf-figures {
+    gap: 10px;
+    margin: 6px 0 2px;
+  }
+  .present-influence .inf-top {
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 10px;
+    margin-top: 8px;
+    padding-top: 8px;
+  }
+  .present-influence .inf-top img.thumb.large {
+    width: 108px;
+  }
+  .present-influence .inf-average .ss-val {
+    font-size: 20px;
+  }
+  /* Two crowns, one under the other, with a rule between them so the second
+     one reads as a second answer rather than more of the first. */
+  .present-influence .inf-crown + .inf-crown {
+    border-top: 1px solid var(--rule);
+    padding-top: 14px;
+  }
+}
+
+/*
+ * What-if entries are cards across, not rows down: with the art at slide scale
+ * three or four stacked rows ran off the bottom, and this matches the layout
+ * the super-votes slide already uses.
+ */
+.present-whatif {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+  align-items: flex-start;
+  gap: clamp(12px, 2vw, 30px);
+}
+/* flex rather than a fixed grid so one or two entries stay centred */
+.present-whatif .wi {
+  flex: 0 1 clamp(220px, 30%, 350px);
+  min-width: 0;
+}
+.present-whatif img.thumb.large {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+/* The Lab's 🏆 / 🥄 tier marker, kept off the title's own line length. */
+.present-whatif .wi-tier {
+  font-size: 0.85em;
+}
+.present-whatif .wi-score {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 6px;
+  margin-top: 6px;
+}
+/* The finish the song actually took: present, but not competing with the
+   counterfactual beside it, which is the number the slide is about. */
+.present-move .mv-from {
+  color: var(--ink-2);
+  font-weight: 600;
+}
+.present-move .tri {
+  color: var(--muted);
+}
+
+/*
+ * Attribution on the quotes slide. Full ink and the quote's own weight, not a
+ * muted caption: on a projector the person who said it is half the slide, and
+ * greying the name pushed it under the room's reading distance.
+ */
+.quote-author {
+  font-style: normal;
+  font-family: var(--sans);
+  font-size: 0.72em;
+  font-weight: inherit;
+  letter-spacing: 0.04em;
+  color: var(--ink);
+  white-space: nowrap;
+}
+
+@media (max-width: 900px) {
+  .present-awards {
+    grid-template-columns: repeat(2, 1fr);
+  }
+  .present-histo,
+  .present-cumulative .pc-row {
+    grid-template-columns: 1fr;
+  }
+  .present-sidestats {
+    border-left: none;
+    padding-left: 0;
+  }
+}
+
+/* The doubled art must still fit the card it sits in. */
+.present-podium img.thumb.large {
+  width: 100%;
+  height: auto;
+  aspect-ratio: 16 / 9;
+}
+
+/*
+ * Ten rows plus a nominator line does not fit a slide, so the credits get their
+ * own column instead of wrapping under the title, and the whole list tightens.
+ */
+.present-top10 {
+  max-width: 1000px;
+}
+.present-top10 li {
+  grid-template-columns: 1.6em 84px minmax(0, 1fr) minmax(0, 0.85fr) auto;
+  gap: 12px;
+  padding: 3px 0;
+}
+.present-top10 .ti {
+  font-size: clamp(14px, 1.35vw, 19px);
+  line-height: 1.2;
+}
+.present-top10 .nom {
+  display: none;
+}
+.present-top10 .nom-col {
+  font-size: clamp(11px, 1.05vw, 14px);
+  line-height: 1.2;
+  color: var(--muted);
+  font-style: italic;
+}
+
+/* The phone copy of the credit only exists below the breakpoint; above it, the
+   credits have their own column and printing them twice would be noise. */
+.present-top10 .nom-inline {
+  display: none;
+}
+
+/*
+ * On a phone the five-column row has nowhere to go: an 84px still plus a
+ * credits column leaves the title about 90px, so every one of the ten rows
+ * wraps to four lines and the list stops being scannable. So the credits stop
+ * being a column — they move under the title as a second line, where they have
+ * the row's full width — and the still shrinks.
+ */
+@media (max-width: 640px) {
+  .present-top10 li {
+    grid-template-columns: 1.4em 56px minmax(0, 1fr) auto;
+    gap: 9px;
+  }
+  .present-top10 .nom-col {
+    display: none;
+  }
+  .present-top10 .nom-inline {
+    display: block;
+    font-style: italic;
+    line-height: 1.25;
+  }
+  .present-top10 img.thumb.small {
+    width: 56px;
+  }
+}
+
+/* Quotes read as a row: art, then the line and its attribution. */
+.present-quotes {
+  gap: 10px;
+  text-align: left;
+}
+.present-quote {
+  display: flex;
+  align-items: center;
+  gap: clamp(10px, 1.4vw, 18px);
+}
+.present-quote .pq-body {
+  min-width: 0;
+}
+.present-quote .quote-line {
+  margin: 0;
+}
+.present-content .present-quote .voice-quote {
+  display: inline;
+  font-size: clamp(15px, 1.45vw, 21px);
+  color: var(--ink);
+}
+
+/* The ranker is the headline on the deep-cut slides, not a caption on one. */
+.present-who {
+  font-size: clamp(20px, 2.2vw, 32px);
+  font-weight: 700;
+  line-height: 1.15;
+  margin-bottom: 8px;
+}
+.present-who .present-person {
+  gap: 8px;
+}
+.present-who .wi-without {
+  font-family: var(--sans);
+  font-size: 12px;
+  font-weight: 600;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  display: block;
+}
+
+/* Quotes should out-weigh the thumbnail beside them. */
+.present-content .present-quote .voice-quote {
+  font-size: clamp(17px, 1.75vw, 25px);
+}
+
+.present-branchsplit {
+  display: grid;
+  grid-template-columns: 260px minmax(0, 1fr);
+  gap: clamp(16px, 2.6vw, 44px);
+  align-items: center;
+}
+
+@media (max-width: 900px) {
+  .present-branchsplit {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* Branch rows carry their own bar: the shared .bars grid gives the value column
+   `auto`, and the comparison text here is long enough to squeeze the track to
+   nothing. Swatches tie each row to its slice of the pie. */
+.present-branchrows {
+  display: grid;
+  gap: 8px;
+  text-align: left;
+}
+.present-branchrows .br-row {
+  display: grid;
+  grid-template-columns: 150px minmax(60px, 1fr) auto auto minmax(0, 160px);
+  align-items: center;
+  gap: 12px;
+  font-size: clamp(13px, 1.2vw, 17px);
+}
+.present-branchrows .br-name {
+  display: inline-flex;
+  align-items: center;
+  gap: 7px;
+  font-weight: 600;
+}
+.present-branchrows .br-swatch {
+  width: 12px;
+  height: 12px;
+  flex: none;
+  border: 1px solid var(--rule);
+}
+.present-branchrows .br-track {
+  display: block;
+  height: 12px;
+  background: repeating-linear-gradient(90deg, var(--rule) 0, var(--rule) 1px, transparent 1px, transparent 8px);
+}
+.present-branchrows .br-fill {
+  display: block;
+  height: 100%;
+}
+.present-branchrows .br-avg {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+}
+.present-branchrows .br-delta {
+  font-weight: 700;
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+}
+.present-branchrows .br-vs {
+  font-size: 0.82em;
+}
+
+/*
+ * On a phone the five-column row has no width to divide: the branch name alone
+ * wants 150px of a 390px screen, and the trailing "18 songs · vs 7.28 all-time"
+ * was landing in a column narrow enough to break after every word — a vertical
+ * ribbon of single words down the side of each bar.
+ *
+ * So the row becomes three stacked lines: the name with its score, the bar, and
+ * the comparison as a caption. Every part keeps its full width, and the bar —
+ * the only thing on the row you read by length — gets the whole screen.
+ */
+@media (max-width: 640px) {
+  .present-branchrows {
+    gap: 14px;
+  }
+  .present-branchrows .br-row {
+    grid-template-columns: minmax(0, 1fr) auto auto;
+    grid-template-areas:
+      'name avg delta'
+      'track track track'
+      'vs vs vs';
+    align-items: baseline;
+    gap: 5px 10px;
+  }
+  .present-branchrows .br-name {
+    grid-area: name;
+  }
+  .present-branchrows .br-avg {
+    grid-area: avg;
+  }
+  .present-branchrows .br-delta {
+    grid-area: delta;
+  }
+  .present-branchrows .br-track {
+    grid-area: track;
+  }
+  .present-branchrows .br-vs {
+    grid-area: vs;
+  }
+}
+
+/* Deep-cut slides are about one score, so it is set at slide scale. */
+.present-move .chip {
+  font-size: clamp(15px, 1.5vw, 21px);
+  padding: 3px 9px;
+}
+
+/*
+ * The all-time placement is a headline on this slide, not a footnote — it was
+ * losing to the year rank beside it in the same grey caption type.
+ */
+.present-cumulative .pc-move {
+  display: flex;
+  align-items: baseline;
+  gap: 6px;
+  margin-top: 2px;
+  font-family: var(--sans);
+  font-weight: 700;
+  font-size: clamp(19px, 1.9vw, 27px);
+  font-variant-numeric: tabular-nums;
+  color: var(--vermillion);
+  line-height: 1.1;
+}
+.present-cumulative .pc-arrow {
+  color: var(--muted);
+  font-weight: 400;
+}
+.present-cumulative .pc-suffix {
+  font-size: 0.5em;
+  letter-spacing: 0.1em;
+  text-transform: uppercase;
+  color: var(--muted);
+  /*
+   * "all-time" carries a hyphen, and a hyphen is a legal break point — so in a
+   * narrow column one podium card would render "ALL-" over "TIME" while its
+   * neighbours kept it on one line. The three cards have to read the same.
+   */
+  white-space: nowrap;
+}
+
+/* Awards: three across, the short last row centred under them. */
+.present-award {
+  text-align: center;
+}
+/* The bar block is narrower than its card, so centre the block itself —
+   left-aligned it left a ragged gap down the right of every award. */
+/*
+ * One grid for the whole board, not one per row.
+ *
+ * Each HBar renders its own .row grid, so an `auto` name column is sized by
+ * that row's own label — a long name pushed its bar right while a short one sat
+ * left, and the board read as a set of unaligned starts. Collapsing the rows
+ * with display:contents lets all of them share the container's columns, so the
+ * name column is as wide as the longest name on the board and every track
+ * starts on the same line.
+ */
+.present-awards .present-bars {
+  text-align: left;
+  width: fit-content;
+  margin-inline: auto;
+  grid-template-columns: minmax(70px, auto) 60px auto;
+  align-items: center;
+  column-gap: 8px;
+  row-gap: 5px;
+}
+.present-awards .present-bars .row {
+  display: contents;
+}
+
+/* Near-misses: a footnote under the podium movers, deliberately quieter. */
+.present-nearmiss {
+  margin-top: 16px;
+  padding-top: 12px;
+  border-top: 1px solid var(--rule);
+}
+.present-nearmiss .nm-rows {
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 4px clamp(16px, 2.4vw, 40px);
+  margin-top: 6px;
+  text-align: left;
+}
+.present-nearmiss .nm-row {
+  display: grid;
+  grid-template-columns: minmax(0, auto) auto minmax(0, 1fr) auto;
+  align-items: center;
+  gap: 8px;
+  font-size: clamp(12px, 1.05vw, 15px);
+  padding: 2px 0;
+  border-bottom: 1px solid var(--rule);
+}
+.present-nearmiss .nm-who {
+  font-weight: 700;
+  white-space: nowrap;
+}
+.present-nearmiss .nm-song {
+  color: var(--ink-2);
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+/* Plain finish, coloured counterfactual — the cards above number it the same way. */
+.present-nearmiss .nm-move {
+  font-variant-numeric: tabular-nums;
+  white-space: nowrap;
+  color: var(--ink-2);
+}
+
+@media (max-width: 900px) {
+  .present-nearmiss .nm-rows {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* ——— Word cloud ——— */
+
+.wordcloud {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: baseline;
+  justify-content: center;
+  gap: 2px 14px;
+  max-width: 900px;
+  margin: 14px auto 0;
+  line-height: 1.35;
+}
+.wordcloud .wc-word {
+  background: none;
+  border: none;
+  padding: 0;
+  margin: 0;
+  cursor: pointer;
+  font-family: var(--serif);
+  font-weight: 700;
+  color: var(--ink);
+  line-height: 1;
+  transition: color 0.12s ease;
+}
+.wordcloud .wc-word:nth-child(3n + 2) {
+  color: var(--navy);
+}
+.wordcloud .wc-word:nth-child(5n + 3) {
+  color: var(--vermillion);
+}
+.wordcloud .wc-word:hover {
+  color: var(--vermillion);
+  text-decoration: underline;
+}
+
+/* ——— Score sheet overlay ——— */
+
+.sheet-open {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 6px;
+  margin-top: 8px;
+}
+
+.sheet-overlay {
+  position: fixed;
+  inset: 0;
+  z-index: 100;
+  background: color-mix(in oklab, var(--ink) 45%, transparent);
+  display: flex;
+  align-items: flex-start;
+  justify-content: center;
+  padding: clamp(12px, 3vh, 44px) 16px;
+  animation: reveal-in 0.14s ease-out;
+}
+.sheet-panel {
+  background: var(--paper);
+  border: 1px solid var(--rule-heavy);
+  box-shadow: 0 18px 50px color-mix(in oklab, var(--ink) 30%, transparent);
+  width: 100%;
+  max-width: 860px;
+  max-height: 100%;
+  display: flex;
+  flex-direction: column;
+}
+/* The re-count carries six columns; the score sheet's four fit in 860px. */
+.sheet-panel-wide {
+  max-width: 1000px;
+}
+.sheet-head {
+  display: flex;
+  align-items: flex-start;
+  justify-content: space-between;
+  gap: 16px;
+  padding: 16px 20px 12px;
+  border-bottom: 2px solid var(--rule-heavy);
+  background: var(--panel);
+}
+.sheet-close {
+  flex: none;
+  background: none;
+  border: 1px solid var(--rule);
+  color: var(--ink-2);
+  font-size: 22px;
+  line-height: 1;
+  width: 34px;
+  height: 34px;
+  cursor: pointer;
+  transition: background-color 0.12s ease, color 0.12s ease, border-color 0.12s ease;
+}
+.sheet-close:hover {
+  background: var(--ink);
+  border-color: var(--ink);
+  color: var(--paper);
+}
+/* The list scrolls, the header stays put — these run to 111 rows. */
+.sheet-body {
+  overflow-y: auto;
+  padding: 0 20px 16px;
+}
+.sheet-body .data th {
+  position: sticky;
+  top: 0;
+  background: var(--paper);
+  z-index: 1;
+}
+.sheet-note {
+  font-size: 13px;
+  margin: 3px 0 0;
+}
+
+.wc-picked {
+  max-width: 900px;
+  margin: 14px auto 0;
+  text-align: left;
+}
+.sheet-title {
+  font-size: 21px;
+  font-weight: 700;
+  line-height: 1.2;
+}

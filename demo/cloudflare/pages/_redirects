@@ -1,0 +1,4 @@
+# The Pages project only serves /projects/song-rank/ (the base the demo is built
+# for, so the same files work behind ethikry.dev/projects/song-rank/). Send
+# anyone landing on the bare pages.dev root there.
+/  /projects/song-rank/  302

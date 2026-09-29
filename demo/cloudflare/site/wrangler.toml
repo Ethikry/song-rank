@@ -1,0 +1,17 @@
+# The demo itself: an assets-only Worker serving dist-demo/ (Cloudflare's
+# successor to a Pages project — wrangler 4 routes Pages deploys through
+# Workers anyway). dist-demo/ holds the build under projects/song-rank/, the
+# base path it was built for, plus _headers and _redirects at the root.
+#
+# Deployed by scripts/deploy-demo.sh, after the leak check. Reached publicly
+# through the ethikry.dev front door (../wrangler.toml) via a service binding.
+name = "ethikry-song-rank"
+compatibility_date = "2025-09-01"
+# Reachable only through ethikry.dev. The account's workers.dev subdomain is
+# named after the private project, so a *.workers.dev URL would tie the two
+# together in public.
+workers_dev = false
+preview_urls = false
+
+[assets]
+directory = "../../../dist-demo"

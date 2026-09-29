@@ -1,0 +1,28 @@
+{
+  "name": "song-rank",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "vite --mode demo",
+    "build": "tsc -b && vite build --mode demo && cp demo/cloudflare/pages/_headers demo/cloudflare/pages/_redirects dist-demo/",
+    "preview": "vite preview --mode demo --outDir dist-demo",
+    "validate": "DATA_DIR=demo/data tsx --tsconfig tsconfig.demo.json scripts/validate.ts"
+  },
+  "dependencies": {
+    "papaparse": "^5.4.1",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "react-router-dom": "^6.26.0"
+  },
+  "devDependencies": {
+    "@types/papaparse": "^5.3.14",
+    "@types/react": "^18.3.3",
+    "@types/react-dom": "^18.3.0",
+    "@vitejs/plugin-react": "^4.3.1",
+    "tsx": "^4.16.2",
+    "typescript": "^5.5.3",
+    "vite": "^5.4.0"
+  },
+  "license": "MIT"
+}

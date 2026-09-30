@@ -126,6 +126,35 @@ a:hover {
   background: var(--ink);
   color: var(--paper);
 }
+/* Demo only: back to the portfolio this demo is part of. Mirrors the theme
+   toggle in the opposite corner. */
+.home-link {
+  position: absolute;
+  top: 20px;
+  left: 20px;
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  height: 34px;
+  padding: 0 12px;
+  background: var(--panel);
+  border: 1px solid var(--ink);
+  color: var(--ink);
+  font-family: var(--sans);
+  font-size: 11.5px;
+  font-weight: 600;
+  letter-spacing: 0.08em;
+  text-transform: uppercase;
+  transition: background-color 0.12s ease, color 0.12s ease;
+}
+.app-nav a.home-link,
+.app-nav a.home-link:hover {
+  border-bottom: 1px solid var(--ink);
+}
+.home-link:hover {
+  background: var(--ink);
+  color: var(--paper);
+}
 .app-nav .tagline {
   font-style: italic;
   color: var(--ink-2);
@@ -2391,6 +2420,19 @@ select:focus-visible,
   .theme-toggle {
     top: 14px;
     right: 14px;
+  }
+  /* Just the arrow on a phone, so it fits beside the centred title the same
+     way the toggle does. */
+  .home-link {
+    top: 14px;
+    left: 14px;
+    width: 34px;
+    padding: 0;
+    justify-content: center;
+    font-size: 15px;
+  }
+  .home-link span {
+    display: none;
   }
 
   /* the tabs collapse behind a ☰ toggle */

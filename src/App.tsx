@@ -133,6 +133,20 @@ function ThemeToggle() {
   )
 }
 
+/**
+ * The public demo lives at ethikry.dev/projects/song-rank/, one project on a
+ * portfolio site; this is the way back to the rest of it. The private site has
+ * nowhere to go back to, so it only renders in the demo build.
+ */
+function HomeLink() {
+  if (!IS_DEMO) return null
+  return (
+    <a className="home-link" href="/" aria-label="Back to ethikry.dev">
+      ← <span>ethikry.dev</span>
+    </a>
+  )
+}
+
 export default function App() {
   // The nav's Years menu and the quick search follow the edition preference, so
   // "my editions" doesn't leave years you were never in sitting in the chrome.
@@ -218,6 +232,7 @@ export default function App() {
             {SITE.brand[0]} <span>{SITE.brand[1]}</span>
           </Link>
         </div>
+        <HomeLink />
         <ThemeToggle />
         <div className="tagline">
           {SITE.subject}, ranked annually by {dataset.allTime.participants.length} friends ·{' '}
